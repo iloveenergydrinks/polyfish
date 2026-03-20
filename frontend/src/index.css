@@ -1,0 +1,134 @@
+@import "tailwindcss";
+@import "tw-animate-css";
+
+@font-face {
+  font-family: "Montech";
+  src: url("./assets/fonts/MONTECHV02-Regular.ttf") format("truetype");
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "Montech";
+  src: url("./assets/fonts/MONTECHV02-Medium.ttf") format("truetype");
+  font-style: normal;
+  font-weight: 500;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "Montech";
+  src: url("./assets/fonts/MONTECHV02-SemiBold.ttf") format("truetype");
+  font-style: normal;
+  font-weight: 600;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "Montech";
+  src: url("./assets/fonts/MONTECHV02-Bold.ttf") format("truetype");
+  font-style: normal;
+  font-weight: 700;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "Montech";
+  src: url("./assets/fonts/MONTECHV02-ExtraBold.ttf") format("truetype");
+  font-style: normal;
+  font-weight: 800;
+  font-display: swap;
+}
+
+@theme inline {
+  --font-sans: var(--font-geist-sans);
+  --font-mono: var(--font-geist-mono);
+  --color-destructive-foreground: var(--destructive-foreground);
+}
+
+:root {
+  color-scheme: dark;
+  --background: #111318;
+  --foreground: #e2e2e8;
+  --card: rgb(51 53 57 / 0.4);
+  --card-foreground: #e2e2e8;
+  --popover: rgb(17 19 24 / 0.88);
+  --popover-foreground: #e2e2e8;
+  --primary: #dbfcff;
+  --primary-foreground: #00363a;
+  --secondary: #dcb8ff;
+  --secondary-foreground: #2c0051;
+  --muted: rgb(185 202 203 / 0.52);
+  --muted-foreground: #b9cacb;
+  --accent: #00f0ff;
+  --accent-foreground: #00363a;
+  --destructive: #ff6b6b;
+  --destructive-foreground: #fff1f0;
+  --border: rgb(59 73 75 / 0.22);
+  --input: rgb(255 255 255 / 0.08);
+  --ring: rgb(0 240 255 / 0.28);
+  --chart-1: #00f0ff;
+  --chart-2: #dcb8ff;
+  --chart-3: #7df4ff;
+  --chart-4: #7701d0;
+  --chart-5: #526070;
+  --radius: 0.5rem;
+  --sidebar: rgb(12 14 18 / 0.92);
+  --sidebar-foreground: #e2e2e8;
+  --sidebar-primary: #00f0ff;
+  --sidebar-primary-foreground: #00363a;
+  --sidebar-accent: #dcb8ff;
+  --sidebar-accent-foreground: #2c0051;
+  --sidebar-border: rgb(59 73 75 / 0.2);
+  --sidebar-ring: rgb(0 240 255 / 0.28);
+  --font-geist-sans: "Montech", sans-serif;
+  --font-geist-mono: "JetBrains Mono", monospace;
+}
+
+.dark {
+  --background: #111318;
+  --foreground: #e2e2e8;
+  --card: rgb(51 53 57 / 0.4);
+  --card-foreground: #e2e2e8;
+  --popover: rgb(17 19 24 / 0.88);
+  --popover-foreground: #e2e2e8;
+  --primary: #dbfcff;
+  --primary-foreground: #00363a;
+  --secondary: #dcb8ff;
+  --secondary-foreground: #2c0051;
+  --muted: rgb(185 202 203 / 0.52);
+  --muted-foreground: #b9cacb;
+  --accent: #00f0ff;
+  --accent-foreground: #00363a;
+  --destructive: #ff6b6b;
+  --destructive-foreground: #fff1f0;
+  --border: rgb(59 73 75 / 0.22);
+  --input: rgb(255 255 255 / 0.08);
+  --ring: rgb(0 240 255 / 0.28);
+  --chart-1: #00f0ff;
+  --chart-2: #dcb8ff;
+  --chart-3: #7df4ff;
+  --chart-4: #7701d0;
+  --chart-5: #526070;
+  --sidebar: rgb(12 14 18 / 0.92);
+  --sidebar-foreground: #e2e2e8;
+  --sidebar-primary: #00f0ff;
+  --sidebar-primary-foreground: #00363a;
+  --sidebar-accent: #dcb8ff;
+  --sidebar-accent-foreground: #2c0051;
+  --sidebar-border: rgb(59 73 75 / 0.2);
+  --sidebar-ring: rgb(0 240 255 / 0.28);
+}
+
+html,
+body,
+#app {
+  min-height: 100%;
+}
+
+body {
+  background: var(--background);
+  color: var(--foreground);
+  font-family: var(--font-geist-sans);
+}
