@@ -437,41 +437,87 @@
       <section id="integrations" class="content-section integrations-section">
         <div class="integration-layout">
           <div class="glass-card integration-chart ai-glow">
-            <div class="integration-header">
-              <span>What Powers Every Simulation</span>
-              <span class="mini-badge">Always On</span>
+            <div class="swarm-panel-head">
+              <span class="swarm-kicker">Swarm Infographic</span>
+              <strong>How PolyFish turns noisy markets into a single decision path</strong>
             </div>
 
-            <div class="metric-bar">
-              <div class="metric-row">
-                <span>Live Market Feed</span>
-                <strong>{{ markets.length || '--' }} markets tracked</strong>
-              </div>
-              <div class="progress-track"><div class="progress-fill fill-a"></div></div>
-            </div>
+            <div class="swarm-stage">
+              <div class="swarm-stage-grid"></div>
 
-            <div class="metric-bar">
-              <div class="metric-row">
-                <span>Memory Layer</span>
-                <strong>Event and entity recall</strong>
-              </div>
-              <div class="progress-track"><div class="progress-fill fill-b"></div></div>
-            </div>
+              <div class="swarm-column-label swarm-column-label--signals">Signals</div>
+              <div class="swarm-column-label swarm-column-label--agents">Agent swarm</div>
+              <div class="swarm-column-label swarm-column-label--output">Thesis</div>
 
-            <div class="metric-bar">
-              <div class="metric-row">
-                <span>Simulation Engine</span>
-                <strong>Multi-agent stress testing</strong>
+              <div class="swarm-signal-stack">
+                <div class="swarm-signal-card">
+                  <span>Live markets</span>
+                  <strong>{{ markets.length || '--' }}</strong>
+                </div>
+                <div class="swarm-signal-card">
+                  <span>Event memory</span>
+                  <strong>linked</strong>
+                </div>
+                <div class="swarm-signal-card">
+                  <span>Stress prompts</span>
+                  <strong>active</strong>
+                </div>
               </div>
-              <div class="progress-track"><div class="progress-fill fill-c"></div></div>
-            </div>
 
-            <div class="metric-bar">
-              <div class="metric-row">
-                <span>Decision Output</span>
-                <strong>Clear written thesis</strong>
+              <div class="swarm-node-field">
+                <div
+                  v-for="node in swarmNodes"
+                  :key="node.id"
+                  class="swarm-node"
+                  :class="`swarm-node--${node.tone}`"
+                  :style="{
+                    left: node.left,
+                    top: node.top,
+                    width: node.size,
+                    height: node.size,
+                    animationDelay: node.delay
+                  }"
+                >
+                  <span class="swarm-node-core"></span>
+                </div>
+
+                <div
+                  v-for="trail in swarmTrails"
+                  :key="trail.id"
+                  class="swarm-trail"
+                  :style="{
+                    left: trail.left,
+                    top: trail.top,
+                    width: trail.width,
+                    transform: trail.transform,
+                    animationDelay: trail.delay
+                  }"
+                ></div>
+
+                <div class="swarm-core">
+                  <span class="swarm-core-ring swarm-core-ring--outer"></span>
+                  <span class="swarm-core-ring swarm-core-ring--inner"></span>
+                  <span class="swarm-core-label">Consensus under pressure</span>
+                </div>
               </div>
-              <div class="progress-track"><div class="progress-fill fill-d"></div></div>
+
+              <div class="swarm-output-card">
+                <span class="swarm-output-label">Decision output</span>
+                <strong>Structured thesis</strong>
+                <p>Bull case, bear case, catalyst timing, and asymmetric risk in one readable brief.</p>
+                <div class="swarm-output-lines">
+                  <span></span>
+                  <span></span>
+                  <span></span>
+                </div>
+              </div>
+
+              <div class="swarm-caption-row">
+                <span>Signals split</span>
+                <span>Agents collide</span>
+                <span>Weak narratives fail</span>
+                <span>One thesis survives</span>
+              </div>
             </div>
           </div>
 
@@ -616,6 +662,29 @@ const simulationTemplates = [
   }
 ]
 
+const swarmNodes = [
+  { id: 'n1', left: '12%', top: '18%', size: '16px', tone: 'cyan', delay: '0s' },
+  { id: 'n2', left: '19%', top: '34%', size: '12px', tone: 'cyan', delay: '0.4s' },
+  { id: 'n3', left: '14%', top: '55%', size: '10px', tone: 'violet', delay: '0.8s' },
+  { id: 'n4', left: '23%', top: '68%', size: '14px', tone: 'white', delay: '1.2s' },
+  { id: 'n5', left: '33%', top: '22%', size: '11px', tone: 'violet', delay: '0.2s' },
+  { id: 'n6', left: '39%', top: '41%', size: '15px', tone: 'cyan', delay: '1s' },
+  { id: 'n7', left: '31%', top: '61%', size: '9px', tone: 'white', delay: '1.4s' },
+  { id: 'n8', left: '45%', top: '16%', size: '13px', tone: 'white', delay: '0.6s' },
+  { id: 'n9', left: '50%', top: '31%', size: '10px', tone: 'violet', delay: '1.1s' },
+  { id: 'n10', left: '47%', top: '56%', size: '14px', tone: 'cyan', delay: '0.9s' },
+  { id: 'n11', left: '56%', top: '71%', size: '11px', tone: 'white', delay: '1.5s' },
+  { id: 'n12', left: '62%', top: '42%', size: '12px', tone: 'cyan', delay: '0.5s' }
+]
+
+const swarmTrails = [
+  { id: 't1', left: '24%', top: '23%', width: '170px', transform: 'rotate(12deg)', delay: '0s' },
+  { id: 't2', left: '22%', top: '48%', width: '200px', transform: 'rotate(-5deg)', delay: '0.5s' },
+  { id: 't3', left: '35%', top: '65%', width: '160px', transform: 'rotate(-18deg)', delay: '1s' },
+  { id: 't4', left: '49%', top: '28%', width: '170px', transform: 'rotate(18deg)', delay: '0.7s' },
+  { id: 't5', left: '54%', top: '55%', width: '180px', transform: 'rotate(-10deg)', delay: '1.2s' }
+]
+
 const marketCategories = computed(() => {
   const counts = new Map()
 
@@ -749,6 +818,7 @@ const parseMarketReference = (value) => {
       const parts = url.pathname.split('/').filter(Boolean)
       const eventIndex = parts.findIndex((part) => part === 'event')
       const marketIndex = parts.findIndex((part) => part === 'market')
+      const lastPart = parts[parts.length - 1]
 
       if (eventIndex !== -1 && parts[eventIndex + 1]) {
         return { slug: parts[eventIndex + 1] }
@@ -764,6 +834,10 @@ const parseMarketReference = (value) => {
 
       if (url.searchParams.get('id')) {
         return { id: url.searchParams.get('id') }
+      }
+
+      if (lastPart) {
+        return { slug: lastPart }
       }
     }
   } catch {
@@ -1842,17 +1916,6 @@ onMounted(() => {
   white-space: nowrap;
 }
 
-.integration-header span:first-child {
-  font-family: 'Montech', sans-serif;
-  text-transform: uppercase;
-  letter-spacing: 0.2em;
-  font-size: 0.78rem;
-}
-
-.metric-bar + .metric-bar {
-  margin-top: 24px;
-}
-
 .metric-row,
 .selected-outcome-row,
 .market-row-top {
@@ -1888,9 +1951,312 @@ onMounted(() => {
 }
 
 .fill-a { width: 88%; background: linear-gradient(90deg, var(--primary-container), var(--secondary)); }
-.fill-b { width: 74%; background: linear-gradient(90deg, #00dbe9, #dcb8ff); }
-.fill-c { width: 82%; background: linear-gradient(90deg, #00dbe9, #7df4ff); }
-.fill-d { width: 91%; background: linear-gradient(90deg, var(--secondary), #f2f6ff); }
+
+.swarm-panel-head {
+  display: grid;
+  gap: 8px;
+  margin-bottom: 22px;
+}
+
+.swarm-kicker {
+  font-family: 'Montech', sans-serif;
+  text-transform: uppercase;
+  letter-spacing: 0.2em;
+  font-size: 0.78rem;
+  color: var(--on-surface-variant);
+}
+
+.swarm-panel-head strong {
+  font-family: 'Montech', sans-serif;
+  font-size: 1.45rem;
+  line-height: 1.15;
+  color: white;
+}
+
+.swarm-stage {
+  position: relative;
+  min-height: 430px;
+  overflow: hidden;
+  border-radius: calc(var(--radius-surface) - 6px);
+  background:
+    radial-gradient(circle at 22% 18%, rgba(0, 240, 255, 0.14), transparent 26%),
+    radial-gradient(circle at 78% 30%, rgba(220, 184, 255, 0.1), transparent 24%),
+    linear-gradient(180deg, rgba(12, 14, 18, 0.94), rgba(17, 19, 24, 0.9));
+  box-shadow:
+    inset 0 0 0 1px rgba(59, 73, 75, 0.12),
+    inset 0 1px 0 rgba(255, 255, 255, 0.02);
+}
+
+.swarm-stage::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(100deg, transparent 0%, rgba(255, 255, 255, 0.06) 46%, transparent 54%);
+  transform: translateX(-120%);
+  animation: swarmSweep 8s linear infinite;
+  pointer-events: none;
+  will-change: transform, opacity;
+}
+
+.swarm-stage-grid {
+  position: absolute;
+  inset: 0;
+  background-image:
+    linear-gradient(rgba(0, 240, 255, 0.05) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(0, 240, 255, 0.05) 1px, transparent 1px);
+  background-size: 36px 36px;
+  opacity: 0.38;
+}
+
+.swarm-column-label {
+  position: absolute;
+  top: 18px;
+  font-family: 'Montech', sans-serif;
+  font-size: 0.66rem;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--on-surface-variant);
+}
+
+.swarm-column-label--signals {
+  left: 22px;
+}
+
+.swarm-column-label--agents {
+  left: 44%;
+  transform: translateX(-50%);
+}
+
+.swarm-column-label--output {
+  right: 26px;
+}
+
+.swarm-signal-stack {
+  position: absolute;
+  top: 56px;
+  left: 22px;
+  display: grid;
+  gap: 12px;
+  width: 140px;
+}
+
+.swarm-signal-card {
+  position: relative;
+  padding: 12px 14px;
+  border-radius: 16px;
+  background: rgba(17, 19, 24, 0.78);
+  box-shadow:
+    inset 0 0 0 1px rgba(59, 73, 75, 0.16),
+    0 16px 32px rgba(0, 0, 0, 0.12);
+  animation: swarmSignalPulse 5.6s ease-in-out infinite;
+  will-change: transform, opacity;
+}
+
+.swarm-signal-card::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  background: linear-gradient(90deg, transparent 0%, rgba(0, 240, 255, 0.16) 50%, transparent 100%);
+  transform: translateX(-120%);
+  animation: swarmSignalSweep 4.8s ease-in-out infinite;
+  will-change: transform, opacity;
+}
+
+.swarm-signal-card:nth-child(2) {
+  animation-delay: 0.8s;
+}
+
+.swarm-signal-card:nth-child(2)::after {
+  animation-delay: 1.1s;
+}
+
+.swarm-signal-card:nth-child(3) {
+  animation-delay: 1.6s;
+}
+
+.swarm-signal-card:nth-child(3)::after {
+  animation-delay: 2s;
+}
+
+.swarm-signal-card span,
+.swarm-output-label {
+  display: block;
+  font-size: 0.66rem;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--on-surface-variant);
+}
+
+.swarm-signal-card strong,
+.swarm-output-card strong {
+  display: block;
+  margin-top: 6px;
+  color: white;
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 0.88rem;
+}
+
+.swarm-node-field {
+  position: absolute;
+  inset: 56px 156px 70px 188px;
+}
+
+.swarm-node {
+  position: absolute;
+  border-radius: 999px;
+  display: grid;
+  place-items: center;
+  animation: swarmFloat 5.2s ease-in-out infinite;
+  will-change: transform, opacity;
+}
+
+.swarm-node-core {
+  display: block;
+  width: 100%;
+  height: 100%;
+  border-radius: inherit;
+  box-shadow: 0 0 0 1px rgba(255, 255, 255, 0.08), 0 0 24px currentColor;
+  opacity: 0.92;
+  animation: swarmNodeCorePulse 3.8s ease-in-out infinite;
+  will-change: transform, opacity;
+}
+
+.swarm-node--cyan {
+  color: #00f0ff;
+}
+
+.swarm-node--violet {
+  color: #dcb8ff;
+}
+
+.swarm-node--white {
+  color: #f2f6ff;
+}
+
+.swarm-trail {
+  position: absolute;
+  height: 1px;
+  background: linear-gradient(90deg, rgba(0, 240, 255, 0), rgba(0, 240, 255, 0.78), rgba(220, 184, 255, 0.32), rgba(220, 184, 255, 0));
+  transform-origin: left center;
+  opacity: 0.42;
+  animation: swarmPulse 3.8s ease-in-out infinite;
+  will-change: opacity, transform;
+}
+
+.swarm-core {
+  position: absolute;
+  top: 50%;
+  left: 63%;
+  width: 124px;
+  height: 124px;
+  transform: translate(-50%, -50%);
+  border-radius: 999px;
+  display: grid;
+  place-items: center;
+}
+
+.swarm-core-ring {
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  border: 1px solid rgba(0, 240, 255, 0.22);
+}
+
+.swarm-core-ring--outer {
+  box-shadow:
+    0 0 38px rgba(0, 240, 255, 0.16),
+    inset 0 0 32px rgba(0, 240, 255, 0.08);
+  animation: swarmCoreOuter 7s linear infinite;
+  will-change: transform;
+}
+
+.swarm-core-ring--inner {
+  inset: 16px;
+  border-color: rgba(220, 184, 255, 0.28);
+  box-shadow: inset 0 0 22px rgba(220, 184, 255, 0.08);
+  animation: swarmCoreInner 5s linear infinite reverse;
+  will-change: transform;
+}
+
+.swarm-core-label {
+  position: relative;
+  z-index: 1;
+  width: 92px;
+  text-align: center;
+  font-family: 'Montech', sans-serif;
+  font-size: 0.74rem;
+  line-height: 1.25;
+  color: white;
+  animation: swarmLabelPulse 2.8s ease-in-out infinite;
+  will-change: opacity, transform;
+}
+
+.swarm-output-card {
+  position: absolute;
+  top: 88px;
+  right: 22px;
+  width: 176px;
+  padding: 16px;
+  border-radius: 18px;
+  background:
+    linear-gradient(180deg, rgba(20, 24, 29, 0.92), rgba(30, 32, 36, 0.88)),
+    rgba(17, 19, 24, 0.82);
+  box-shadow:
+    inset 0 0 0 1px rgba(59, 73, 75, 0.16),
+    0 22px 44px rgba(0, 0, 0, 0.16);
+  animation: swarmOutputLift 5.4s ease-in-out infinite;
+  will-change: transform, opacity;
+}
+
+.swarm-output-card p {
+  margin: 10px 0 0;
+  font-size: 0.82rem;
+  line-height: 1.55;
+  color: var(--on-surface-variant);
+}
+
+.swarm-output-lines {
+  display: grid;
+  gap: 7px;
+  margin-top: 16px;
+}
+
+.swarm-output-lines span {
+  display: block;
+  height: 6px;
+  border-radius: 999px;
+  background: linear-gradient(90deg, rgba(0, 240, 255, 0.6), rgba(220, 184, 255, 0.2));
+  animation: swarmOutputLine 2.6s ease-in-out infinite;
+  will-change: transform, opacity;
+}
+
+.swarm-output-lines span:nth-child(2) {
+  width: 82%;
+  animation-delay: 0.35s;
+}
+
+.swarm-output-lines span:nth-child(3) {
+  width: 61%;
+  animation-delay: 0.7s;
+}
+
+.swarm-caption-row {
+  position: absolute;
+  right: 24px;
+  bottom: 18px;
+  left: 24px;
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 10px;
+}
+
+.swarm-caption-row span {
+  padding-top: 10px;
+  border-top: 1px solid rgba(59, 73, 75, 0.12);
+  font-size: 0.72rem;
+  color: var(--on-surface-variant);
+}
 
 .integration-list {
   list-style: none;
@@ -1909,6 +2275,136 @@ onMounted(() => {
 
 .integration-list .material-symbols-outlined {
   color: var(--primary-container);
+}
+
+@keyframes swarmFloat {
+  0%, 100% {
+    transform: translate3d(0, 0, 0) scale(1);
+  }
+  50% {
+    transform: translate3d(0, -11px, 0) scale(1.12);
+  }
+}
+
+@keyframes swarmPulse {
+  0%, 100% {
+    opacity: 0.18;
+    transform: scaleX(0.96);
+  }
+  50% {
+    opacity: 0.72;
+    transform: scaleX(1);
+  }
+}
+
+@keyframes swarmNodeCorePulse {
+  0%, 100% {
+    opacity: 0.78;
+    transform: scale(0.92);
+  }
+  50% {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+@keyframes swarmCoreOuter {
+  from {
+    transform: rotate(0deg) scale(1);
+  }
+  50% {
+    transform: rotate(180deg) scale(1.04);
+  }
+  to {
+    transform: rotate(360deg) scale(1);
+  }
+}
+
+@keyframes swarmCoreInner {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+@keyframes swarmSweep {
+  0% {
+    transform: translateX(-120%);
+    opacity: 0;
+  }
+  12% {
+    opacity: 0.22;
+  }
+  50% {
+    opacity: 0.08;
+  }
+  100% {
+    transform: translateX(120%);
+    opacity: 0;
+  }
+}
+
+@keyframes swarmSignalPulse {
+  0%, 100% {
+    transform: translateY(0);
+    opacity: 0.88;
+  }
+  50% {
+    transform: translateY(-3px);
+    opacity: 1;
+  }
+}
+
+@keyframes swarmSignalSweep {
+  0%, 100% {
+    transform: translateX(-120%);
+    opacity: 0;
+  }
+  30% {
+    opacity: 0.55;
+  }
+  60% {
+    opacity: 0.18;
+  }
+  100% {
+    transform: translateX(120%);
+    opacity: 0;
+  }
+}
+
+@keyframes swarmLabelPulse {
+  0%, 100% {
+    opacity: 0.82;
+    transform: scale(0.98);
+  }
+  50% {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+@keyframes swarmOutputLift {
+  0%, 100% {
+    transform: translateY(0);
+    opacity: 0.94;
+  }
+  50% {
+    transform: translateY(-4px);
+    opacity: 1;
+  }
+}
+
+@keyframes swarmOutputLine {
+  0%, 100% {
+    opacity: 0.45;
+    transform: scaleX(0.94);
+  }
+  50% {
+    opacity: 1;
+    transform: scaleX(1);
+  }
 }
 
 .section-title-centered {

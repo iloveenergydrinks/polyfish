@@ -9,7 +9,7 @@ from __future__ import annotations
 import json
 from typing import Any, Dict, List, Optional
 from urllib.error import HTTPError, URLError
-from urllib.parse import urlencode
+from urllib.parse import urlencode, urlparse
 from urllib.request import Request, urlopen
 
 from ..config import Config
@@ -35,10 +35,14 @@ class PolymarketService:
         return [self._normalize_market(m) for m in raw_markets]
 
     def get_market(self, market_id: Optional[str] = None, slug: Optional[str] = None) -> Dict[str, Any]:
+        normalized_slug = self._normalize_lookup_slug(slug)
+
         if market_id:
             markets = self._get_json("/markets", {"id": market_id})
-        elif slug:
-            markets = self._get_json("/markets", {"slug": slug})
+        elif normalized_slug:
+            markets = self._get_json("/markets", {"slug": normalized_slug})
+            if not markets:
+                markets = self._get_market_from_event_slug(normalized_slug)
         else:
             raise ValueError("market_id or slug is required")
 
@@ -46,6 +50,23 @@ class PolymarketService:
             raise ValueError("Market not found on Polymarket")
 
         return self._normalize_market(markets[0])
+
+    def _get_market_from_event_slug(self, slug: str) -> List[Dict[str, Any]]:
+        events = self._get_json("/events", {"slug": slug})
+        if not events:
+            return []
+
+        event = events[0] or {}
+        event_markets = event.get("markets") or []
+        if not event_markets:
+            return []
+
+        exact_slug_match = [market for market in event_markets if (market or {}).get("slug") == slug]
+        if exact_slug_match:
+            return exact_slug_match
+
+        active_markets = [market for market in event_markets if (market or {}).get("active")]
+        return active_markets or event_markets[:1]
 
     def build_market_seed_text(self, market: Dict[str, Any]) -> str:
         event = market.get("event") or {}
@@ -186,3 +207,23 @@ class PolymarketService:
             return float(value)
         except (TypeError, ValueError):
             return 0.0
+
+    @staticmethod
+    def _normalize_lookup_slug(value: Optional[str]) -> Optional[str]:
+        if not value:
+            return None
+
+        raw = str(value).strip()
+        if not raw:
+            return None
+
+        if raw.startswith("http://") or raw.startswith("https://"):
+            try:
+                parsed = urlparse(raw)
+                path_parts = [part for part in parsed.path.split("/") if part]
+                return path_parts[-1] if path_parts else None
+            except ValueError:
+                return raw
+
+        path_parts = [part for part in raw.strip("/").split("/") if part]
+        return path_parts[-1] if path_parts else raw.strip("/")
