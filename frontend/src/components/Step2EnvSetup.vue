@@ -620,6 +620,7 @@ import { ref, computed, watch, onMounted, onUnmounted, nextTick } from 'vue'
 import { 
   prepareSimulation, 
   getPrepareStatus, 
+  getSimulationProfiles,
   getSimulationProfilesRealtime,
   getSimulationConfig,
   getSimulationConfigRealtime 
@@ -827,6 +828,10 @@ const stopProfilesPolling = () => {
   }
 }
 
+const isNotFoundError = (error) => {
+  return error?.response?.status === 404
+}
+
 const pollPrepareStatus = async () => {
   if (!taskId.value && !props.simulationId) return
   
@@ -893,10 +898,19 @@ const fetchProfilesRealtime = async () => {
   if (!props.simulationId) return
   
   try {
-    const res = await getSimulationProfilesRealtime(props.simulationId, 'reddit')
+    let res
+
+    try {
+      res = await getSimulationProfilesRealtime(props.simulationId, 'reddit')
+    } catch (error) {
+      if (!isNotFoundError(error)) {
+        throw error
+      }
+
+      res = await getSimulationProfiles(props.simulationId, 'reddit')
+    }
     
     if (res.success && res.data) {
-      const prevCount = profiles.value.length
       profiles.value = res.data.profiles || []
       //Only update when the API returns a valid value to avoid overwriting existing valid values.
       if (res.data.total_expected) {
@@ -1011,7 +1025,32 @@ const loadPreparedData = async () => {
 
   //Get configuration (using real-time interface)
   try {
-    const res = await getSimulationConfigRealtime(props.simulationId)
+    let res
+
+    try {
+      res = await getSimulationConfigRealtime(props.simulationId)
+    } catch (error) {
+      if (!isNotFoundError(error)) {
+        throw error
+      }
+
+      const fallback = await getSimulationConfig(props.simulationId)
+      res = {
+        success: fallback.success,
+        data: fallback.success
+          ? {
+              config_generated: true,
+              config: fallback.data,
+              summary: {
+                total_agents: fallback.data?.agent_configs?.length || 0,
+                simulation_hours: fallback.data?.time_config?.total_simulation_hours,
+                initial_posts_count: fallback.data?.event_config?.initial_posts?.length || 0
+              }
+            }
+          : null
+      }
+    }
+
     if (res.success && res.data) {
       if (res.data.config_generated && res.data.config) {
         simulationConfig.value = res.data.config
