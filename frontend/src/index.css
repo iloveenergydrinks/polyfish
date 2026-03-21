@@ -41,6 +41,14 @@
   font-display: swap;
 }
 
+@font-face {
+  font-family: "403 Technul Soft";
+  src: url("./assets/fonts/403Technul-Soft.ttf") format("truetype");
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+}
+
 @theme inline {
   --font-sans: var(--font-geist-sans);
   --font-mono: var(--font-geist-mono);

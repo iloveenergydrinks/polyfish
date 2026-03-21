@@ -1194,12 +1194,11 @@ onMounted(() => {
 
 .brand-wordmark,
 .footer-brand {
-  font-family: 'Montech', sans-serif;
+  font-family: '403 Technul Soft', 'Montech', sans-serif;
   font-size: 1.55rem;
-  font-weight: 700;
-  letter-spacing: -0.04em;
+  font-weight: 400;
+  letter-spacing: 0.01em;
   color: var(--primary-container);
-  text-transform: uppercase;
 }
 
 .topbar-links,
@@ -1434,10 +1433,10 @@ onMounted(() => {
 }
 
 .hero-brand-copy strong {
-  font-family: 'Montech', sans-serif;
+  font-family: '403 Technul Soft', 'Montech', sans-serif;
   font-size: 0.92rem;
-  letter-spacing: 0.12em;
-  text-transform: uppercase;
+  font-weight: 400;
+  letter-spacing: 0.04em;
   color: white;
 }
 
