@@ -18,6 +18,7 @@ from zep_cloud .client import Zep
 
 from ..config import Config 
 from ..utils .logger import get_logger 
+from ..utils .llm_client import build_json_schema_response_format 
 from .zep_entity_reader import EntityNode ,ZepEntityReader 
 
 logger =get_logger ('mirofish.oasis_profile')
@@ -520,7 +521,7 @@ class OasisProfileGenerator :
                 {"role":"system","content":self ._get_system_prompt (is_individual )},
                 {"role":"user","content":prompt }
                 ],
-                response_format ={"type":"json_object"},
+                response_format =build_json_schema_response_format ("oasis_profile"),
                 temperature =0.7 -(attempt *0.1 )# Lower the temperature each time you retry
                 # Do not set max_tokens and let LLM play freely
                 )

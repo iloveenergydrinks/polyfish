@@ -11,6 +11,26 @@ from openai import OpenAI
 from ..config import Config
 
 
+def build_json_schema_response_format(schema_name: str = "structured_output") -> Dict[str, Any]:
+    """
+    Build a permissive JSON schema response format for Chat Completions.
+
+    Some OpenAI-compatible providers now reject the legacy
+    `response_format={"type": "json_object"}` and require `json_schema`.
+    """
+    return {
+        "type": "json_schema",
+        "json_schema": {
+            "name": schema_name,
+            "schema": {
+                "type": "object",
+                "additionalProperties": True
+            },
+            "strict": False
+        }
+    }
+
+
 class LLMClient:
     """LLM client."""
     
@@ -88,7 +108,7 @@ class LLMClient:
             messages=messages,
             temperature=temperature,
             max_tokens=max_tokens,
-            response_format={"type": "json_object"}
+            response_format=build_json_schema_response_format("chat_json_response")
         )
         # Strip Markdown code fence markers.
         cleaned_response = response.strip()
