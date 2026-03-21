@@ -26,7 +26,7 @@ def build_json_schema_response_format(schema_name: str = "structured_output") ->
                 "type": "object",
                 "additionalProperties": True
             },
-            "strict": False
+            "strict": True
         }
     }
 
