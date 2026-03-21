@@ -7,6 +7,8 @@ Read-only access to Polymarket's public Gamma API for active-market metadata.
 from __future__ import annotations
 
 import json
+import re
+from difflib import SequenceMatcher
 from typing import Any, Dict, List, Optional
 from urllib.error import HTTPError, URLError
 from urllib.parse import urlencode, urlparse
@@ -43,6 +45,8 @@ class PolymarketService:
             markets = self._get_json("/markets", {"slug": normalized_slug})
             if not markets:
                 markets = self._get_market_from_event_slug(normalized_slug)
+            if not markets:
+                markets = self._find_market_by_fuzzy_slug(normalized_slug)
         else:
             raise ValueError("market_id or slug is required")
 
@@ -67,6 +71,38 @@ class PolymarketService:
 
         active_markets = [market for market in event_markets if (market or {}).get("active")]
         return active_markets or event_markets[:1]
+
+    def _find_market_by_fuzzy_slug(self, slug: str) -> List[Dict[str, Any]]:
+        query_key = self._canonicalize_lookup_text(slug)
+        if not query_key:
+            return []
+
+        best_market: Optional[Dict[str, Any]] = None
+        best_score = 0.0
+
+        for offset in range(0, 1000, 500):
+            candidates = self._get_json(
+                "/markets",
+                {
+                    "active": "true",
+                    "closed": "false",
+                    "limit": 500,
+                    "offset": offset,
+                },
+            )
+            if not candidates:
+                break
+
+            for market in candidates:
+                score = self._score_market_candidate(query_key, market or {})
+                if score > best_score:
+                    best_market = market
+                    best_score = score
+
+            if best_score >= 0.995 or len(candidates) < 500:
+                break
+
+        return [best_market] if best_market and best_score >= 0.9 else []
 
     def build_market_seed_text(self, market: Dict[str, Any]) -> str:
         event = market.get("event") or {}
@@ -227,3 +263,46 @@ class PolymarketService:
 
         path_parts = [part for part in raw.strip("/").split("/") if part]
         return path_parts[-1] if path_parts else raw.strip("/")
+
+    @classmethod
+    def _canonicalize_lookup_text(cls, value: Optional[str]) -> str:
+        raw = cls._normalize_lookup_slug(value) or ""
+        if not raw:
+            return ""
+
+        raw = re.sub(r"(?:-\d+)+$", "", raw.lower())
+        for phrase in ("greater-than", "less-than", "greater than", "less than"):
+            raw = raw.replace(phrase, " ")
+        raw = raw.replace(">", " ").replace("<", " ")
+        raw = re.sub(r"[^a-z0-9]+", " ", raw)
+        return " ".join(raw.split())
+
+    @classmethod
+    def _score_market_candidate(cls, query_key: str, market: Dict[str, Any]) -> float:
+        slug_key = cls._canonicalize_lookup_text(market.get("slug"))
+        question_key = cls._canonicalize_lookup_text(market.get("question"))
+
+        candidate_keys = [key for key in (slug_key, question_key) if key]
+        if not candidate_keys:
+            return 0.0
+
+        best_ratio = max(SequenceMatcher(None, query_key, key).ratio() for key in candidate_keys)
+
+        if any(key == query_key for key in candidate_keys):
+            return 1.0
+
+        if any(key.startswith(query_key) or query_key.startswith(key) for key in candidate_keys):
+            best_ratio = max(best_ratio, 0.98)
+
+        query_tokens = set(query_key.split())
+        if query_tokens:
+            best_overlap = 0.0
+            for key in candidate_keys:
+                candidate_tokens = set(key.split())
+                if not candidate_tokens:
+                    continue
+                overlap = len(query_tokens & candidate_tokens) / max(len(query_tokens), len(candidate_tokens))
+                best_overlap = max(best_overlap, overlap)
+            best_ratio = max(best_ratio, best_overlap)
+
+        return best_ratio

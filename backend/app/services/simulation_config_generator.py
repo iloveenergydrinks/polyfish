@@ -18,7 +18,10 @@ from openai import OpenAI
 
 from ..config import Config
 from ..utils.logger import get_logger
-from ..utils.llm_client import build_json_schema_response_format
+from ..utils.llm_client import (
+    build_json_schema_response_format,
+    should_use_json_schema_response_format,
+)
 from .zep_entity_reader import EntityNode, ZepEntityReader
 
 logger = get_logger('mirofish.simulation_config')
@@ -434,15 +437,20 @@ class SimulationConfigGenerator:
         
         for attempt in range(max_attempts):
             try:
-                response = self.client.chat.completions.create(
-                    model=self.model_name,
-                    messages=[
+                request_kwargs = {
+                    "model": self.model_name,
+                    "messages": [
                         {"role": "system", "content": system_prompt},
                         {"role": "user", "content": prompt}
                     ],
-                    response_format=build_json_schema_response_format("simulation_config"),
-                    temperature=0.7 - (attempt * 0.1)  # Lower the temperature each time you retry
-                    # Do not set max_tokens and let LLM play freely
+                    "temperature": 0.7 - (attempt * 0.1),
+                }
+
+                if should_use_json_schema_response_format(Config.LLM_BASE_URL):
+                    request_kwargs["response_format"] = build_json_schema_response_format("simulation_config")
+
+                response = self.client.chat.completions.create(
+                    **request_kwargs
                 )
                 
                 content = response.choices[0].message.content

@@ -11,6 +11,18 @@ from openai import OpenAI
 from ..config import Config
 
 
+def should_use_json_schema_response_format(base_url: Optional[str] = None) -> bool:
+    """
+    Some OpenAI-compatible providers only partially implement structured outputs.
+
+    Anthropic's compatibility layer currently rejects the permissive fallback
+    schema this codebase uses for "return any JSON object" flows, so those
+    calls must rely on prompt-constrained JSON plus local parsing instead.
+    """
+    normalized_base_url = (base_url or Config.LLM_BASE_URL or "").lower()
+    return "anthropic.com" not in normalized_base_url
+
+
 def build_json_schema_response_format(schema_name: str = "structured_output") -> Dict[str, Any]:
     """
     Build a permissive JSON schema response format for Chat Completions.
@@ -108,7 +120,11 @@ class LLMClient:
             messages=messages,
             temperature=temperature,
             max_tokens=max_tokens,
-            response_format=build_json_schema_response_format("chat_json_response")
+            response_format=(
+                build_json_schema_response_format("chat_json_response")
+                if should_use_json_schema_response_format(self.base_url)
+                else None
+            )
         )
         # Strip Markdown code fence markers.
         cleaned_response = response.strip()
