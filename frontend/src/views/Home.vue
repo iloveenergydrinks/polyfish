@@ -39,12 +39,9 @@
       <section class="hero-section">
         <div class="hero-grid">
           <div class="hero-copy">
-            <div class="hero-brand-pill">
+            <div class="hero-brand-mark">
               <img class="hero-brand-logo" src="/polyfish-logo.png" alt="PolyFish logo">
-              <div class="hero-brand-copy">
-                <strong>PolyFish</strong>
-                <span>Swarm prediction for live markets</span>
-              </div>
+              <span>PolyFish</span>
             </div>
             <h1>
               See what the market
@@ -1183,19 +1180,19 @@ onMounted(() => {
 }
 
 .brand-logo {
-  width: 42px;
-  height: 42px;
-  border-radius: 14px;
-  object-fit: cover;
+  width: 36px;
+  height: 36px;
+  border-radius: 12px;
+  object-fit: contain;
   box-shadow:
-    0 10px 22px rgba(0, 0, 0, 0.24),
-    inset 0 0 0 1px rgba(255, 255, 255, 0.04);
+    0 8px 18px rgba(0, 0, 0, 0.22),
+    inset 0 0 0 1px rgba(255, 255, 255, 0.03);
 }
 
 .brand-wordmark,
 .footer-brand {
   font-family: '403 Technul Soft', 'Montech', sans-serif;
-  font-size: 1.55rem;
+  font-size: 1.5rem;
   font-weight: 400;
   letter-spacing: 0.01em;
   color: var(--primary-container);
@@ -1404,45 +1401,29 @@ onMounted(() => {
   max-width: 100%;
 }
 
-.hero-brand-pill {
+.hero-brand-logo {
+  width: 48px;
+  height: 48px;
+  border-radius: 15px;
+  object-fit: contain;
+  box-shadow:
+    0 12px 24px rgba(0, 0, 0, 0.24),
+    inset 0 0 0 1px rgba(255, 255, 255, 0.03);
+}
+
+.hero-brand-mark {
   display: inline-flex;
   align-items: center;
   gap: 14px;
   margin-bottom: 20px;
-  padding: 10px 16px 10px 10px;
-  border-radius: 999px;
-  background: rgba(17, 19, 24, 0.68);
-  box-shadow:
-    inset 0 0 0 1px rgba(0, 240, 255, 0.1),
-    0 14px 32px rgba(0, 0, 0, 0.18);
 }
 
-.hero-brand-logo {
-  width: 54px;
-  height: 54px;
-  border-radius: 18px;
-  object-fit: cover;
-  box-shadow:
-    0 12px 28px rgba(0, 0, 0, 0.28),
-    inset 0 0 0 1px rgba(255, 255, 255, 0.04);
-}
-
-.hero-brand-copy {
-  display: grid;
-  gap: 2px;
-}
-
-.hero-brand-copy strong {
+.hero-brand-mark span {
   font-family: '403 Technul Soft', 'Montech', sans-serif;
-  font-size: 0.92rem;
+  font-size: clamp(1.55rem, 2.5vw, 2rem);
   font-weight: 400;
-  letter-spacing: 0.04em;
+  letter-spacing: 0.02em;
   color: white;
-}
-
-.hero-brand-copy span {
-  color: var(--on-surface-variant);
-  font-size: 0.84rem;
 }
 
 .hero-copy h1 {
@@ -2831,21 +2812,24 @@ onMounted(() => {
   }
 
   .brand-logo {
-    width: 38px;
-    height: 38px;
+    width: 32px;
+    height: 32px;
     border-radius: 12px;
   }
 
-  .hero-brand-pill {
-    width: 100%;
-    max-width: 360px;
-    padding-right: 14px;
+  .hero-brand-logo {
+    width: 40px;
+    height: 40px;
+    border-radius: 13px;
   }
 
-  .hero-brand-logo {
-    width: 46px;
-    height: 46px;
-    border-radius: 15px;
+  .hero-brand-mark {
+    gap: 10px;
+    margin-bottom: 16px;
+  }
+
+  .hero-brand-mark span {
+    font-size: 1.4rem;
   }
 
   .hero-copy h1,
