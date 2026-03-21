@@ -4,7 +4,10 @@
 
     <nav class="topbar">
       <div class="topbar-inner">
-        <div class="brand-wordmark">PolyFish</div>
+        <div class="brand-lockup">
+          <img class="brand-logo" src="/polyfish-logo.png" alt="PolyFish logo">
+          <div class="brand-wordmark">PolyFish</div>
+        </div>
         <div class="topbar-links">
           <a href="#ecosystem">Why PolyFish</a>
           <a href="#methodology">How It Works</a>
@@ -36,6 +39,13 @@
       <section class="hero-section">
         <div class="hero-grid">
           <div class="hero-copy">
+            <div class="hero-brand-pill">
+              <img class="hero-brand-logo" src="/polyfish-logo.png" alt="PolyFish logo">
+              <div class="hero-brand-copy">
+                <strong>PolyFish</strong>
+                <span>Swarm prediction for live markets</span>
+              </div>
+            </div>
             <h1>
               See what the market
               <span>is missing.</span>
@@ -160,6 +170,15 @@
               </label>
             </div>
 
+            <div v-if="lookupSuccess" class="state-box success lookup-success">
+              <strong>Market found and selected</strong>
+              <span>
+                <b>{{ lookupSuccess.question }}</b>
+                <em>{{ formatPercent(getBinaryProbability(lookupSuccess)) }} consensus • closes {{ formatDate(lookupSuccess.end_date) }}</em>
+              </span>
+              <small>You can review it below or move straight to Step 2.</small>
+            </div>
+
             <div v-if="lookupError" class="state-box error lookup-error">{{ lookupError }}</div>
 
             <div class="market-filter-row">
@@ -218,9 +237,9 @@
                     class="market-table-row"
                     :class="{ selected: selectedMarket?.slug === market.slug }"
                     tabindex="0"
-                    @click="selectedMarket = market"
-                    @keydown.enter.prevent="selectedMarket = market"
-                    @keydown.space.prevent="selectedMarket = market"
+                    @click="selectMarket(market)"
+                    @keydown.enter.prevent="selectMarket(market)"
+                    @keydown.space.prevent="selectMarket(market)"
                   >
                     <td class="market-title-cell">
                       <div class="market-title-main">{{ market.question }}</div>
@@ -634,6 +653,7 @@ const visibleMarketCount = ref(100)
 const directLookup = ref('')
 const lookupLoading = ref(false)
 const lookupError = ref('')
+const lookupSuccess = ref(null)
 const currentWizardStep = ref(1)
 
 const categoryLabelMap = {
@@ -866,15 +886,25 @@ const upsertMarket = (market) => {
   markets.value = nextMarkets
 }
 
+const selectMarket = (market, { fromLookup = false } = {}) => {
+  selectedMarket.value = market
+
+  if (!fromLookup) {
+    lookupSuccess.value = null
+  }
+}
+
 const lookupSpecificMarket = async () => {
   const reference = parseMarketReference(directLookup.value)
   if (!reference.slug && !reference.id) {
     lookupError.value = 'Enter a valid Polymarket URL, slug, or market id.'
+    lookupSuccess.value = null
     return
   }
 
   lookupLoading.value = true
   lookupError.value = ''
+  lookupSuccess.value = null
 
   try {
     const res = await lookupMarket(reference)
@@ -885,7 +915,8 @@ const lookupSpecificMarket = async () => {
     }
 
     upsertMarket(market)
-    selectedMarket.value = market
+    selectMarket(market, { fromLookup: true })
+    lookupSuccess.value = market
     marketSearch.value = ''
     marketCategory.value = 'all'
     visibleMarketCount.value = Math.max(visibleMarketCount.value, 100)
@@ -1023,11 +1054,16 @@ watch([marketSearch, marketCategory, marketSort], () => {
   visibleMarketCount.value = 100
 })
 
+watch(directLookup, () => {
+  lookupError.value = ''
+  lookupSuccess.value = null
+})
+
 watch(filteredMarkets, (nextMarkets) => {
   if (!nextMarkets.length) return
 
   if (!selectedMarket.value || !nextMarkets.some((market) => market.slug === selectedMarket.value.slug)) {
-    selectedMarket.value = nextMarkets[0]
+    selectMarket(nextMarkets[0])
   }
 })
 
@@ -1138,6 +1174,22 @@ onMounted(() => {
   align-items: center;
   justify-content: space-between;
   gap: 20px;
+}
+
+.brand-lockup {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.brand-logo {
+  width: 42px;
+  height: 42px;
+  border-radius: 14px;
+  object-fit: cover;
+  box-shadow:
+    0 10px 22px rgba(0, 0, 0, 0.24),
+    inset 0 0 0 1px rgba(255, 255, 255, 0.04);
 }
 
 .brand-wordmark,
@@ -1351,6 +1403,47 @@ onMounted(() => {
 .hero-copy {
   width: 100%;
   max-width: 100%;
+}
+
+.hero-brand-pill {
+  display: inline-flex;
+  align-items: center;
+  gap: 14px;
+  margin-bottom: 20px;
+  padding: 10px 16px 10px 10px;
+  border-radius: 999px;
+  background: rgba(17, 19, 24, 0.68);
+  box-shadow:
+    inset 0 0 0 1px rgba(0, 240, 255, 0.1),
+    0 14px 32px rgba(0, 0, 0, 0.18);
+}
+
+.hero-brand-logo {
+  width: 54px;
+  height: 54px;
+  border-radius: 18px;
+  object-fit: cover;
+  box-shadow:
+    0 12px 28px rgba(0, 0, 0, 0.28),
+    inset 0 0 0 1px rgba(255, 255, 255, 0.04);
+}
+
+.hero-brand-copy {
+  display: grid;
+  gap: 2px;
+}
+
+.hero-brand-copy strong {
+  font-family: 'Montech', sans-serif;
+  font-size: 0.92rem;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: white;
+}
+
+.hero-brand-copy span {
+  color: var(--on-surface-variant);
+  font-size: 0.84rem;
 }
 
 .hero-copy h1 {
@@ -1800,6 +1893,38 @@ onMounted(() => {
 
 .lookup-error {
   margin-bottom: 14px;
+}
+
+.lookup-success {
+  display: grid;
+  gap: 6px;
+  margin-bottom: 14px;
+  padding: 16px 18px;
+  border: 1px solid rgba(0, 240, 255, 0.18);
+  border-radius: var(--radius-control);
+  background: linear-gradient(180deg, rgba(0, 240, 255, 0.08), rgba(0, 240, 255, 0.03));
+}
+
+.lookup-success strong,
+.lookup-success b,
+.lookup-success em,
+.lookup-success small {
+  font-style: normal;
+}
+
+.lookup-success strong,
+.lookup-success b {
+  color: white;
+}
+
+.lookup-success span {
+  display: grid;
+  gap: 3px;
+}
+
+.lookup-success em,
+.lookup-success small {
+  color: var(--on-surface-variant);
 }
 
 .market-table-shell {
@@ -2651,6 +2776,10 @@ onMounted(() => {
   color: #ffb4ab;
 }
 
+.state-box.success {
+  color: var(--on-surface);
+}
+
 @media (max-width: 1100px) {
   .hero-grid,
   .integration-layout,
@@ -2700,6 +2829,24 @@ onMounted(() => {
 
   .topbar-links {
     display: none;
+  }
+
+  .brand-logo {
+    width: 38px;
+    height: 38px;
+    border-radius: 12px;
+  }
+
+  .hero-brand-pill {
+    width: 100%;
+    max-width: 360px;
+    padding-right: 14px;
+  }
+
+  .hero-brand-logo {
+    width: 46px;
+    height: 46px;
+    border-radius: 15px;
   }
 
   .hero-copy h1,
