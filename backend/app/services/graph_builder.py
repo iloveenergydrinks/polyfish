@@ -15,8 +15,11 @@ from zep_cloud import EpisodeData ,EntityEdgeSourceTarget
 
 from ..config import Config 
 from ..models .task import TaskManager ,TaskStatus 
+from ..utils .logger import get_logger
 from ..utils .zep_paging import fetch_all_nodes ,fetch_all_edges 
 from .text_processor import TextProcessor 
+
+logger =get_logger ('mirofish.graph_builder')
 
 
 @dataclass 
@@ -49,6 +52,36 @@ Responsible for calling Zep API to build knowledge graph
 
         self .client =Zep (api_key =self .api_key )
         self .task_manager =TaskManager ()
+
+    def _call_with_retry (
+    self ,
+    func :Callable [[],Any ],
+    operation_name :str ,
+    max_retries :int =4 ,
+    initial_delay :float =2.0 
+    )->Any :
+        """Retry transient Zep API failures during graph construction."""
+        delay =initial_delay 
+        last_error =None 
+
+        for attempt in range (max_retries +1 ):
+            try :
+                return func ()
+            except Exception as e :
+                last_error =e 
+
+                if attempt ==max_retries :
+                    logger .error (f"Zep {operation_name} still failed after {max_retries } retries: {e }")
+                    raise 
+
+                logger .warning (
+                f"Zep {operation_name} failed on attempt {attempt +1 }: {str (e )[:160 ]}, "
+                f"retrying in {delay :.1f}s..."
+                )
+                time .sleep (delay )
+                delay =min (delay *2 ,20.0 )
+
+        raise last_error 
 
     def build_graph_async (
     self ,
@@ -188,10 +221,13 @@ Task ID
         """Create a Zep map (public method)"""
         graph_id =f"polyfish_{uuid .uuid4 ().hex [:16 ]}"
 
-        self .client .graph .create (
+        self ._call_with_retry (
+        lambda :self .client .graph .create (
         graph_id =graph_id ,
         name =name ,
         description ="PolyFish market simulation graph"
+        ),
+        "graph.create"
         )
 
         return graph_id 
@@ -277,12 +313,16 @@ Task ID
             if source_targets :
                 edge_definitions [name ]=(edge_class ,source_targets )
 
-                # Call Zep API to set the ontology
+        # Call Zep API to set the ontology
         if entity_types or edge_definitions :
-            self .client .graph .set_ontology (
+            self ._call_with_retry (
+            lambda :self .client .graph .set_ontology (
             graph_ids =[graph_id ],
             entities =entity_types if entity_types else None ,
             edges =edge_definitions if edge_definitions else None ,
+            )
+            ,
+            "graph.set_ontology"
             )
 
     def add_text_batches (
@@ -316,9 +356,12 @@ Task ID
 
             # Send to Zep
             try :
-                batch_result =self .client .graph .add_batch (
+                batch_result =self ._call_with_retry (
+                lambda :self .client .graph .add_batch (
                 graph_id =graph_id ,
                 episodes =episodes 
+                ),
+                f"graph.add_batch batch {batch_num }/{total_batches }"
                 )
 
                 # Collect the returned episode uuid
