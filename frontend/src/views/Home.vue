@@ -1164,7 +1164,7 @@ onMounted(() => {
   width: 36px;
   height: 36px;
   object-fit: contain;
-  filter: grayscale(1) brightness(0.9);
+  filter: invert(1);
 }
 
 .brand-wordmark,
@@ -1375,7 +1375,7 @@ onMounted(() => {
   width: 48px;
   height: 48px;
   object-fit: contain;
-  filter: grayscale(1) brightness(0.9);
+  filter: invert(1);
 }
 
 .hero-brand-mark {
