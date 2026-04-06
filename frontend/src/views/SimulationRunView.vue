@@ -315,20 +315,20 @@ onUnmounted(() => {
   height: 100vh;
   display: flex;
   flex-direction: column;
-  background: #FFF;
+  background: #0a0a0a;
   overflow: hidden;
-  font-family: 'Montech', 'Noto Sans SC', system-ui, sans-serif;
+  font-family: 'JetBrains Mono', monospace;
 }
 
 /* Header */
 .app-header {
   height: 60px;
-  border-bottom: 1px solid #EAEAEA;
+  border-bottom: 1px solid #333333;
   display: flex;
   align-items: center;
   justify-content: space-between;
   padding: 0 24px;
-  background: #FFF;
+  background: #0a0a0a;
   z-index: 100;
   position: relative;
 }
@@ -349,9 +349,9 @@ onUnmounted(() => {
 
 .view-switcher {
   display: flex;
-  background: #F5F5F5;
+  background: #1a1a1a;
   padding: 4px;
-  border-radius: 6px;
+  border-radius: 0;
   gap: 4px;
 }
 
@@ -361,16 +361,16 @@ onUnmounted(() => {
   padding: 6px 16px;
   font-size: 12px;
   font-weight: 600;
-  color: #666;
-  border-radius: 4px;
+  color: #888888;
+  border-radius: 0;
   cursor: pointer;
   transition: all 0.2s;
 }
 
 .switch-btn.active {
-  background: #FFF;
-  color: #000;
-  box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+  background: #0a0a0a;
+  color: #f0f0f0;
+  border: 1px solid #333333;
 }
 
 .header-right {
@@ -389,18 +389,18 @@ onUnmounted(() => {
 .step-num {
   font-family: 'JetBrains Mono', monospace;
   font-weight: 700;
-  color: #999;
+  color: #666666;
 }
 
 .step-name {
   font-weight: 700;
-  color: #000;
+  color: #f0f0f0;
 }
 
 .step-divider {
   width: 1px;
   height: 14px;
-  background-color: #E0E0E0;
+  background-color: #333333;
 }
 
 .status-indicator {
@@ -408,20 +408,20 @@ onUnmounted(() => {
   align-items: center;
   gap: 8px;
   font-size: 12px;
-  color: #666;
+  color: #888888;
   font-weight: 500;
 }
 
 .dot {
   width: 8px;
   height: 8px;
-  border-radius: 50%;
-  background: #CCC;
+  border-radius: 0;
+  background: #444444;
 }
 
-.status-indicator.processing .dot { background: #FF5722; animation: pulse 1s infinite; }
-.status-indicator.completed .dot { background: #4CAF50; }
-.status-indicator.error .dot { background: #F44336; }
+.status-indicator.processing .dot { background: #888888; animation: pulse 1s infinite; }
+.status-indicator.completed .dot { background: #d4d4d4; }
+.status-indicator.error .dot { background: #f0f0f0; }
 
 @keyframes pulse { 50% { opacity: 0.5; } }
 
@@ -441,6 +441,6 @@ onUnmounted(() => {
 }
 
 .panel-wrapper.left {
-  border-right: 1px solid #EAEAEA;
+  border-right: 1px solid #333333;
 }
 </style>

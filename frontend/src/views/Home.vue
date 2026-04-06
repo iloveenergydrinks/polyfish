@@ -1306,6 +1306,10 @@ onMounted(() => {
   opacity: 0.22;
   filter: grayscale(1) brightness(0.6) contrast(1.2);
   transform: scale(1.02);
+  -webkit-mask-image:
+    linear-gradient(180deg, #000 0%, #000 40%, rgba(0,0,0,0.6) 65%, rgba(0,0,0,0.2) 82%, transparent 100%);
+  mask-image:
+    linear-gradient(180deg, #000 0%, #000 40%, rgba(0,0,0,0.6) 65%, rgba(0,0,0,0.2) 82%, transparent 100%);
 }
 
 .hero-media-layer::after {
