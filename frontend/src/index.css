@@ -2,46 +2,6 @@
 @import "tw-animate-css";
 
 @font-face {
-  font-family: "Montech";
-  src: url("./assets/fonts/MONTECHV02-Regular.ttf") format("truetype");
-  font-style: normal;
-  font-weight: 400;
-  font-display: swap;
-}
-
-@font-face {
-  font-family: "Montech";
-  src: url("./assets/fonts/MONTECHV02-Medium.ttf") format("truetype");
-  font-style: normal;
-  font-weight: 500;
-  font-display: swap;
-}
-
-@font-face {
-  font-family: "Montech";
-  src: url("./assets/fonts/MONTECHV02-SemiBold.ttf") format("truetype");
-  font-style: normal;
-  font-weight: 600;
-  font-display: swap;
-}
-
-@font-face {
-  font-family: "Montech";
-  src: url("./assets/fonts/MONTECHV02-Bold.ttf") format("truetype");
-  font-style: normal;
-  font-weight: 700;
-  font-display: swap;
-}
-
-@font-face {
-  font-family: "Montech";
-  src: url("./assets/fonts/MONTECHV02-ExtraBold.ttf") format("truetype");
-  font-style: normal;
-  font-weight: 800;
-  font-display: swap;
-}
-
-@font-face {
   font-family: "403 Technul Soft";
   src: url("./assets/fonts/403Technul-Soft.ttf") format("truetype");
   font-style: normal;
@@ -57,78 +17,95 @@
 
 :root {
   color-scheme: dark;
-  --background: #111318;
-  --foreground: #e2e2e8;
-  --card: rgb(51 53 57 / 0.4);
-  --card-foreground: #e2e2e8;
-  --popover: rgb(17 19 24 / 0.88);
-  --popover-foreground: #e2e2e8;
-  --primary: #dbfcff;
-  --primary-foreground: #00363a;
-  --secondary: #dcb8ff;
-  --secondary-foreground: #2c0051;
-  --muted: rgb(185 202 203 / 0.52);
-  --muted-foreground: #b9cacb;
-  --accent: #00f0ff;
-  --accent-foreground: #00363a;
-  --destructive: #ff6b6b;
-  --destructive-foreground: #fff1f0;
-  --border: rgb(59 73 75 / 0.22);
-  --input: rgb(255 255 255 / 0.08);
-  --ring: rgb(0 240 255 / 0.28);
-  --chart-1: #00f0ff;
-  --chart-2: #dcb8ff;
-  --chart-3: #7df4ff;
-  --chart-4: #7701d0;
-  --chart-5: #526070;
-  --radius: 0.5rem;
-  --sidebar: rgb(12 14 18 / 0.92);
-  --sidebar-foreground: #e2e2e8;
-  --sidebar-primary: #00f0ff;
-  --sidebar-primary-foreground: #00363a;
-  --sidebar-accent: #dcb8ff;
-  --sidebar-accent-foreground: #2c0051;
-  --sidebar-border: rgb(59 73 75 / 0.2);
-  --sidebar-ring: rgb(0 240 255 / 0.28);
-  --font-geist-sans: "Montech", sans-serif;
-  --font-geist-mono: "JetBrains Mono", monospace;
+
+  /* Greyscale palette */
+  --bg-deep: #0a0a0a;
+  --bg-base: #111111;
+  --bg-raised: #1a1a1a;
+  --bg-surface: #222222;
+  --border-hard: #333333;
+  --border-soft: #252525;
+  --border-bright: #555555;
+  --text-primary: #d4d4d4;
+  --text-secondary: #888888;
+  --text-tertiary: #555555;
+  --text-bright: #f0f0f0;
+  --grain-opacity: 0.035;
+
+  /* Map to existing variable names for Tailwind/component compat */
+  --background: #0a0a0a;
+  --foreground: #d4d4d4;
+  --card: #111111;
+  --card-foreground: #d4d4d4;
+  --popover: #0a0a0a;
+  --popover-foreground: #d4d4d4;
+  --primary: #f0f0f0;
+  --primary-foreground: #0a0a0a;
+  --secondary: #888888;
+  --secondary-foreground: #0a0a0a;
+  --muted: #333333;
+  --muted-foreground: #888888;
+  --accent: #888888;
+  --accent-foreground: #0a0a0a;
+  --destructive: #cccccc;
+  --destructive-foreground: #0a0a0a;
+  --border: #333333;
+  --input: #1a1a1a;
+  --ring: #555555;
+  --chart-1: #f0f0f0;
+  --chart-2: #d4d4d4;
+  --chart-3: #999999;
+  --chart-4: #666666;
+  --chart-5: #444444;
+  --radius: 0;
+  --sidebar: #0a0a0a;
+  --sidebar-foreground: #d4d4d4;
+  --sidebar-primary: #f0f0f0;
+  --sidebar-primary-foreground: #0a0a0a;
+  --sidebar-accent: #888888;
+  --sidebar-accent-foreground: #0a0a0a;
+  --sidebar-border: #333333;
+  --sidebar-ring: #555555;
+  --font-geist-sans: "JetBrains Mono", "Courier New", monospace;
+  --font-geist-mono: "JetBrains Mono", "Courier New", monospace;
 }
 
 .dark {
-  --background: #111318;
-  --foreground: #e2e2e8;
-  --card: rgb(51 53 57 / 0.4);
-  --card-foreground: #e2e2e8;
-  --popover: rgb(17 19 24 / 0.88);
-  --popover-foreground: #e2e2e8;
-  --primary: #dbfcff;
-  --primary-foreground: #00363a;
-  --secondary: #dcb8ff;
-  --secondary-foreground: #2c0051;
-  --muted: rgb(185 202 203 / 0.52);
-  --muted-foreground: #b9cacb;
-  --accent: #00f0ff;
-  --accent-foreground: #00363a;
-  --destructive: #ff6b6b;
-  --destructive-foreground: #fff1f0;
-  --border: rgb(59 73 75 / 0.22);
-  --input: rgb(255 255 255 / 0.08);
-  --ring: rgb(0 240 255 / 0.28);
-  --chart-1: #00f0ff;
-  --chart-2: #dcb8ff;
-  --chart-3: #7df4ff;
-  --chart-4: #7701d0;
-  --chart-5: #526070;
-  --sidebar: rgb(12 14 18 / 0.92);
-  --sidebar-foreground: #e2e2e8;
-  --sidebar-primary: #00f0ff;
-  --sidebar-primary-foreground: #00363a;
-  --sidebar-accent: #dcb8ff;
-  --sidebar-accent-foreground: #2c0051;
-  --sidebar-border: rgb(59 73 75 / 0.2);
-  --sidebar-ring: rgb(0 240 255 / 0.28);
+  --background: #0a0a0a;
+  --foreground: #d4d4d4;
+  --card: #111111;
+  --card-foreground: #d4d4d4;
+  --popover: #0a0a0a;
+  --popover-foreground: #d4d4d4;
+  --primary: #f0f0f0;
+  --primary-foreground: #0a0a0a;
+  --secondary: #888888;
+  --secondary-foreground: #0a0a0a;
+  --muted: #333333;
+  --muted-foreground: #888888;
+  --accent: #888888;
+  --accent-foreground: #0a0a0a;
+  --destructive: #cccccc;
+  --destructive-foreground: #0a0a0a;
+  --border: #333333;
+  --input: #1a1a1a;
+  --ring: #555555;
+  --chart-1: #f0f0f0;
+  --chart-2: #d4d4d4;
+  --chart-3: #999999;
+  --chart-4: #666666;
+  --chart-5: #444444;
+  --sidebar: #0a0a0a;
+  --sidebar-foreground: #d4d4d4;
+  --sidebar-primary: #f0f0f0;
+  --sidebar-primary-foreground: #0a0a0a;
+  --sidebar-accent: #888888;
+  --sidebar-accent-foreground: #0a0a0a;
+  --sidebar-border: #333333;
+  --sidebar-ring: #555555;
 }
 
+/* ── Global resets ── */
 html,
 body,
 #app {
@@ -139,4 +116,70 @@ body {
   background: var(--background);
   color: var(--foreground);
   font-family: var(--font-geist-sans);
+}
+
+/* Kill all border radius globally */
+*,
+*::before,
+*::after {
+  border-radius: 0 !important;
+}
+
+/* ── Grain noise overlay ── */
+.grain::before {
+  content: '';
+  position: fixed;
+  inset: 0;
+  z-index: 9999;
+  pointer-events: none;
+  opacity: var(--grain-opacity);
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+  background-repeat: repeat;
+  background-size: 256px 256px;
+}
+
+/* ── ASCII character grid background ── */
+.ascii-grid {
+  position: relative;
+}
+.ascii-grid::after {
+  content: '. : ; . , : . ; , . : ; . , : . ; , . : ; . , : . ; , . : ; . , : . ; , . : ; . , : . ; , . : ; . , : . ; , . : ; . , : . ; , . : ; . , : . ; , . : ; . , : . ; , . : ; . , : . ; , . : ; . , : . ; , . : ; . , : . ; , . : ; . , : . ; , . : ; . , : . ; , . : ; . , : . ; , . : ; . , : . ; , . : ; . , : . ; , . : ; . , : . ; , . : ; . , : . ; , . : ; . , : . ; , . : ; . , : . ; , . : ; . , : . ; , . : ; . , : . ; , . : ; . , : . ; , . : ; . , : . ; , . : ; . , : . ; , ';
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  pointer-events: none;
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 10px;
+  line-height: 1.8;
+  letter-spacing: 0.5em;
+  color: rgba(255, 255, 255, 0.03);
+  word-break: break-all;
+  overflow: hidden;
+  white-space: pre-wrap;
+}
+
+/* ── Terminal cursor blink ── */
+@keyframes blink {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0; }
+}
+.cursor-blink::after {
+  content: '_';
+  animation: blink 1s step-end infinite;
+}
+
+/* ── Scanlines ── */
+.scanlines::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  background: repeating-linear-gradient(
+    0deg,
+    transparent,
+    transparent 2px,
+    rgba(0, 0, 0, 0.03) 2px,
+    rgba(0, 0, 0, 0.03) 4px
+  );
+  z-index: 10;
 }

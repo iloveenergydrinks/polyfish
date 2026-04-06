@@ -1,5 +1,7 @@
 <template>
-  <router-view />
+  <div id="app-shell" class="grain">
+    <router-view />
+  </div>
 </template>
 
 <script setup>
@@ -15,28 +17,32 @@
 
 #app {
   min-height: 100vh;
-  font-family: var(--font-geist-sans), sans-serif;
+  font-family: var(--font-geist-sans), monospace;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   color: var(--foreground);
   background-color: var(--background);
 }
 
+#app-shell {
+  min-height: 100vh;
+}
+
 ::-webkit-scrollbar {
-  width: 8px;
-  height: 8px;
+  width: 6px;
+  height: 6px;
 }
 
 ::-webkit-scrollbar-track {
-  background: rgba(26, 28, 32, 0.85);
+  background: #0a0a0a;
 }
 
 ::-webkit-scrollbar-thumb {
-  background: rgba(0, 240, 255, 0.24);
+  background: #333333;
 }
 
 ::-webkit-scrollbar-thumb:hover {
-  background: rgba(0, 240, 255, 0.42);
+  background: #555555;
 }
 
 button {

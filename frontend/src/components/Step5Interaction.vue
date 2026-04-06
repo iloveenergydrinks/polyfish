@@ -780,9 +780,10 @@ watch(() => props.simulationId, (newId) => {
   height: 100%;
   display: flex;
   flex-direction: column;
-  background: #F8F9FA;
-  font-family: 'Montech', 'Noto Sans SC', system-ui, sans-serif;
+  background: #111111;
+  font-family: 'JetBrains Mono', monospace;
   overflow: hidden;
+  color: #f0f0f0;
 }
 
 .interaction-toolbar {
@@ -792,8 +793,8 @@ watch(() => props.simulationId, (newId) => {
   justify-content: space-between;
   gap: 12px;
   padding: 16px 20px;
-  background: #FFFFFF;
-  border-bottom: 1px solid #E5E7EB;
+  background: #111111;
+  border-bottom: 1px solid #333333;
 }
 
 .toolbar-group {
@@ -803,20 +804,21 @@ watch(() => props.simulationId, (newId) => {
 }
 
 .toolbar-btn {
-  border: 1px solid #E5E7EB;
-  background: #FFFFFF;
-  color: #111827;
-  border-radius: 999px;
+  border: 1px solid #333333;
+  background: #111111;
+  color: #f0f0f0;
+  border-radius: 0;
   padding: 8px 12px;
   font-size: 13px;
+  font-family: 'JetBrains Mono', monospace;
   font-weight: 600;
   cursor: pointer;
 }
 
 .toolbar-btn.active {
-  background: #111827;
-  color: #FFFFFF;
-  border-color: #111827;
+  background: #f0f0f0;
+  color: #111111;
+  border-color: #f0f0f0;
 }
 
 .agent-dropdown {
@@ -825,10 +827,9 @@ watch(() => props.simulationId, (newId) => {
   left: 20px;
   z-index: 10;
   min-width: 220px;
-  background: #FFFFFF;
-  border: 1px solid #E5E7EB;
-  border-radius: 12px;
-  box-shadow: 0 12px 30px rgba(0, 0, 0, 0.1);
+  background: #111111;
+  border: 1px solid #333333;
+  border-radius: 0;
   padding: 8px;
   display: grid;
   gap: 6px;
@@ -837,15 +838,17 @@ watch(() => props.simulationId, (newId) => {
 .dropdown-item {
   text-align: left;
   border: none;
-  background: #FFFFFF;
-  border-radius: 8px;
+  background: #111111;
+  border-radius: 0;
   padding: 10px 12px;
   font-size: 13px;
+  font-family: 'JetBrains Mono', monospace;
+  color: #f0f0f0;
   cursor: pointer;
 }
 
 .dropdown-item:hover {
-  background: #F3F4F6;
+  background: #1a1a1a;
 }
 
 .chat-shell,
@@ -874,10 +877,11 @@ watch(() => props.simulationId, (newId) => {
 .chat-input,
 .survey-input {
   width: 100%;
-  border: 1px solid #D1D5DB;
-  border-radius: 12px;
+  border: 1px solid #333333;
+  border-radius: 0;
   padding: 12px 14px;
-  background: #FFFFFF;
+  background: #0a0a0a;
+  color: #f0f0f0;
   font: inherit;
   resize: vertical;
 }
@@ -885,9 +889,9 @@ watch(() => props.simulationId, (newId) => {
 .send-btn,
 .survey-submit-btn {
   border: none;
-  border-radius: 12px;
-  background: #111827;
-  color: #FFFFFF;
+  border-radius: 0;
+  background: #f0f0f0;
+  color: #111111;
   padding: 12px 14px;
   cursor: pointer;
 }
@@ -896,8 +900,8 @@ watch(() => props.simulationId, (newId) => {
 .left-panel.report-style {
   width: 45%;
   min-width: 450px;
-  background: #FFFFFF;
-  border-right: 1px solid #E5E7EB;
+  background: #111111;
+  border-right: 1px solid #333333;
   overflow-y: auto;
   display: flex;
   flex-direction: column;
@@ -914,16 +918,16 @@ watch(() => props.simulationId, (newId) => {
 
 .left-panel::-webkit-scrollbar-thumb {
   background: transparent;
-  border-radius: 3px;
+  border-radius: 0;
   transition: background 0.3s ease;
 }
 
 .left-panel:hover::-webkit-scrollbar-thumb {
-  background: rgba(0, 0, 0, 0.15);
+  background: rgba(255, 255, 255, 0.15);
 }
 
 .left-panel::-webkit-scrollbar-thumb:hover {
-  background: rgba(0, 0, 0, 0.25);
+  background: rgba(255, 255, 255, 0.25);
 }
 
 /* translated comment */
@@ -947,7 +951,7 @@ watch(() => props.simulationId, (newId) => {
 .message-text :deep(.md-oli)::before {
   content: counter(list-counter) ".";
   font-weight: 600;
-  color: #374151;
+  color: #d4d4d4;
   min-width: 20px;
   flex-shrink: 0;
 }
@@ -967,37 +971,37 @@ watch(() => props.simulationId, (newId) => {
 .result-answer :deep(.md-quote) {
   margin: 12px 0;
   padding: 12px 16px;
-  background: #F9FAFB;
-  border-left: 3px solid #1F2937;
-  color: #4B5563;
+  background: #1a1a1a;
+  border-left: 3px solid #888888;
+  color: #888888;
 }
 
 :deep(.code-block) {
   margin: 12px 0;
   padding: 12px 16px;
-  background: #1F2937;
-  border-radius: 6px;
+  background: #0a0a0a;
+  border-radius: 0;
   overflow-x: auto;
 }
 
 :deep(.code-block code) {
   font-family: 'JetBrains Mono', monospace;
   font-size: 13px;
-  color: #E5E7EB;
+  color: #d4d4d4;
 }
 
 :deep(.inline-code) {
   font-family: 'JetBrains Mono', monospace;
   font-size: 13px;
-  background: #F3F4F6;
+  background: #1a1a1a;
   padding: 2px 6px;
-  border-radius: 4px;
-  color: #1F2937;
+  border-radius: 0;
+  color: #d4d4d4;
 }
 
 :deep(.md-hr) {
   border: none;
-  border-top: 1px solid #E5E7EB;
+  border-top: 1px solid #333333;
   margin: 24px 0;
 }
 </style>

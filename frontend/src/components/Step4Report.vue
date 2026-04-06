@@ -395,9 +395,10 @@ onUnmounted(() => {
   flex-direction: column;
   gap: 16px;
   padding: 20px;
-  background: #f7f7f4;
-  color: #121212;
+  background: #111111;
+  color: #f0f0f0;
   overflow: auto;
+  font-family: 'JetBrains Mono', monospace;
 }
 
 .report-toolbar,
@@ -423,7 +424,7 @@ onUnmounted(() => {
   font-size: 12px;
   letter-spacing: 0.12em;
   text-transform: uppercase;
-  color: #6b6b63;
+  color: #666666;
 }
 
 .report-title {
@@ -437,7 +438,7 @@ onUnmounted(() => {
   align-items: center;
   height: 36px;
   padding: 0 12px;
-  border-radius: 999px;
+  border-radius: 0;
   font-size: 12px;
   font-weight: 700;
   text-transform: uppercase;
@@ -445,36 +446,37 @@ onUnmounted(() => {
 }
 
 .status-badge.is-processing {
-  background: #efe8c8;
-  color: #6f5700;
+  background: #1a1a1a;
+  color: #888888;
 }
 
 .status-badge.is-complete {
-  background: #dbf1dd;
-  color: #1c6b2d;
+  background: #1a1a1a;
+  color: #d4d4d4;
 }
 
 .status-badge.is-error {
-  background: #f8dddd;
-  color: #8d1f1f;
+  background: #1a1a1a;
+  color: #f0f0f0;
 }
 
 .ghost-btn,
 .primary-btn {
   height: 36px;
   padding: 0 14px;
-  border-radius: 10px;
-  border: 1px solid #d4d2ca;
-  background: #fff;
-  color: #121212;
+  border-radius: 0;
+  border: 1px solid #333333;
+  background: #111111;
+  color: #f0f0f0;
+  font-family: 'JetBrains Mono', monospace;
   font-weight: 600;
   cursor: pointer;
 }
 
 .primary-btn {
-  border-color: #121212;
-  background: #121212;
-  color: #fff;
+  border-color: #f0f0f0;
+  background: #f0f0f0;
+  color: #111111;
 }
 
 .ghost-btn:disabled,
@@ -489,11 +491,10 @@ onUnmounted(() => {
 }
 
 .panel-card {
-  background: #fff;
-  border: 1px solid #e5e2d8;
-  border-radius: 20px;
+  background: #111111;
+  border: 1px solid #333333;
+  border-radius: 0;
   padding: 18px;
-  box-shadow: 0 10px 30px rgba(18, 18, 18, 0.04);
 }
 
 .report-meta {
@@ -511,7 +512,7 @@ onUnmounted(() => {
 .meta-label,
 .card-count {
   font-size: 12px;
-  color: #6b6b63;
+  color: #666666;
   text-transform: uppercase;
   letter-spacing: 0.08em;
 }
@@ -541,7 +542,7 @@ onUnmounted(() => {
 .timeline-detail,
 .timeline-section {
   margin: 0;
-  color: #505048;
+  color: #888888;
 }
 
 .outline-list {
@@ -566,9 +567,9 @@ onUnmounted(() => {
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  border-radius: 999px;
-  background: #f1efe6;
-  color: #6b6b63;
+  border-radius: 0;
+  background: #1a1a1a;
+  color: #666666;
   font-size: 12px;
 }
 
@@ -579,16 +580,16 @@ onUnmounted(() => {
 .error-banner {
   margin: 0 0 14px;
   padding: 12px 14px;
-  border-radius: 12px;
-  background: #f8dddd;
-  color: #8d1f1f;
+  border-radius: 0;
+  background: #1a1a1a;
+  color: #f0f0f0;
 }
 
 .empty-state {
-  border: 1px dashed #d8d5ca;
-  border-radius: 16px;
+  border: 1px dashed #333333;
+  border-radius: 0;
   padding: 20px;
-  background: #faf9f5;
+  background: #0a0a0a;
 }
 
 .empty-state-title {
@@ -619,15 +620,15 @@ onUnmounted(() => {
 .markdown-body :deep(blockquote) {
   margin: 1em 0;
   padding-left: 14px;
-  border-left: 3px solid #d4d2ca;
-  color: #505048;
+  border-left: 3px solid #333333;
+  color: #888888;
 }
 
 .markdown-body :deep(.inline-code),
 .markdown-body :deep(code) {
   padding: 0.1rem 0.35rem;
-  border-radius: 6px;
-  background: #f1efe6;
+  border-radius: 0;
+  background: #1a1a1a;
   font-family: 'JetBrains Mono', monospace;
   font-size: 0.92em;
 }
@@ -635,9 +636,9 @@ onUnmounted(() => {
 .markdown-body :deep(pre) {
   overflow: auto;
   padding: 14px;
-  border-radius: 12px;
-  background: #161616;
-  color: #f4f0e6;
+  border-radius: 0;
+  background: #0a0a0a;
+  color: #d4d4d4;
 }
 
 .log-card {
@@ -660,8 +661,8 @@ onUnmounted(() => {
   width: 10px;
   height: 10px;
   margin-top: 6px;
-  border-radius: 999px;
-  background: #121212;
+  border-radius: 0;
+  background: #f0f0f0;
   flex: none;
 }
 
@@ -685,7 +686,7 @@ onUnmounted(() => {
 
 .timeline-time {
   font-size: 12px;
-  color: #6b6b63;
+  color: #666666;
 }
 
 .timeline-section {
@@ -695,9 +696,9 @@ onUnmounted(() => {
 .console-block {
   margin: 0;
   padding: 14px;
-  border-radius: 14px;
-  background: #151515;
-  color: #e9e6dc;
+  border-radius: 0;
+  background: #0a0a0a;
+  color: #d4d4d4;
   font-family: 'JetBrains Mono', monospace;
   font-size: 12px;
   line-height: 1.6;

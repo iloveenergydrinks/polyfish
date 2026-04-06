@@ -118,15 +118,15 @@
           <div v-else-if="currentPhase < 1" class="graph-waiting">
             <div class="waiting-icon">
               <svg viewBox="0 0 100 100" class="network-icon">
-                <circle cx="50" cy="20" r="8" fill="none" stroke="#000" stroke-width="1.5"/>
-                <circle cx="20" cy="60" r="8" fill="none" stroke="#000" stroke-width="1.5"/>
-                <circle cx="80" cy="60" r="8" fill="none" stroke="#000" stroke-width="1.5"/>
-                <circle cx="50" cy="80" r="8" fill="none" stroke="#000" stroke-width="1.5"/>
-                <line x1="50" y1="28" x2="25" y2="54" stroke="#000" stroke-width="1"/>
-                <line x1="50" y1="28" x2="75" y2="54" stroke="#000" stroke-width="1"/>
-                <line x1="28" y1="60" x2="72" y2="60" stroke="#000" stroke-width="1" stroke-dasharray="4"/>
-                <line x1="50" y1="72" x2="26" y2="66" stroke="#000" stroke-width="1"/>
-                <line x1="50" y1="72" x2="74" y2="66" stroke="#000" stroke-width="1"/>
+                <circle cx="50" cy="20" r="8" fill="none" stroke="#f0f0f0" stroke-width="1.5"/>
+                <circle cx="20" cy="60" r="8" fill="none" stroke="#f0f0f0" stroke-width="1.5"/>
+                <circle cx="80" cy="60" r="8" fill="none" stroke="#f0f0f0" stroke-width="1.5"/>
+                <circle cx="50" cy="80" r="8" fill="none" stroke="#f0f0f0" stroke-width="1.5"/>
+                <line x1="50" y1="28" x2="25" y2="54" stroke="#f0f0f0" stroke-width="1"/>
+                <line x1="50" y1="28" x2="75" y2="54" stroke="#f0f0f0" stroke-width="1"/>
+                <line x1="28" y1="60" x2="72" y2="60" stroke="#f0f0f0" stroke-width="1" stroke-dasharray="4"/>
+                <line x1="50" y1="72" x2="26" y2="66" stroke="#f0f0f0" stroke-width="1"/>
+                <line x1="50" y1="72" x2="74" y2="66" stroke="#f0f0f0" stroke-width="1"/>
               </svg>
             </div>
             <p class="waiting-text">Waiting for ontology generation</p>
@@ -370,7 +370,7 @@ const entityTypes = computed(() => {
   if (!graphData.value?.nodes) return []
   
   const typeMap = {}
-  const colors = ['#FF6B35', '#004E89', '#7B2D8E', '#1A936F', '#C5283D', '#E9724C']
+  const colors = ['#888888', '#aaaaaa', '#666666', '#d4d4d4', '#f0f0f0', '#bbbbbb']
   
   graphData.value.nodes.forEach(node => {
     const type = node.labels?.find(l => l !== 'Entity') || 'Entity'
@@ -812,7 +812,7 @@ const renderGraph = () => {
       .attr('x', width / 2)
       .attr('y', height / 2)
       .attr('text-anchor', 'middle')
-      .attr('fill', '#999')
+      .attr('fill', '#888888')
       .text('Waiting for graph data...')
     return
   }
@@ -852,7 +852,7 @@ const renderGraph = () => {
   const types = [...new Set(nodes.map(n => n.type))]
   const colorScale = d3.scaleOrdinal()
     .domain(types)
-    .range(['#FF6B35', '#004E89', '#7B2D8E', '#1A936F', '#C5283D', '#E9724C', '#2D3436', '#6C5CE7'])
+    .range(['#888888', '#aaaaaa', '#666666', '#d4d4d4', '#f0f0f0', '#bbbbbb', '#555555', '#999999'])
   
   // translated comment
   const simulation = d3.forceSimulation(nodes)
@@ -888,7 +888,7 @@ const renderGraph = () => {
   
   // translated comment
   const link = linkGroup.append('line')
-    .attr('stroke', '#ccc')
+    .attr('stroke', '#555555')
     .attr('stroke-width', 1.5)
     .attr('stroke-opacity', 0.6)
   
@@ -905,7 +905,7 @@ const renderGraph = () => {
     .enter()
     .append('text')
     .attr('font-size', '9px')
-    .attr('fill', '#999')
+    .attr('fill', '#888888')
     .attr('text-anchor', 'middle')
     .text(d => d.type.length > 15 ? d.type.substring(0, 12) + '...' : d.type)
   
@@ -929,7 +929,7 @@ const renderGraph = () => {
   node.append('circle')
     .attr('r', 10)
     .attr('fill', d => colorScale(d.type))
-    .attr('stroke', '#fff')
+    .attr('stroke', '#0a0a0a')
     .attr('stroke-width', 2)
     .attr('class', 'node-circle')
   
@@ -938,7 +938,7 @@ const renderGraph = () => {
     .attr('dy', 4)
     .text(d => d.name?.substring(0, 12) || '')
     .attr('font-size', '11px')
-    .attr('fill', '#333')
+    .attr('fill', '#d4d4d4')
     .attr('font-family', 'JetBrains Mono, monospace')
   
   // translated comment
@@ -1001,18 +1001,18 @@ onUnmounted(() => {
 <style scoped>
 /* translated comment */
 :root {
-  --black: #000000;
-  --white: #FFFFFF;
-  --orange: #FF6B35;
-  --gray-light: #F5F5F5;
-  --gray-border: #E0E0E0;
-  --gray-text: #666666;
+  --black: #f0f0f0;
+  --white: #0a0a0a;
+  --orange: #888888;
+  --gray-light: #1a1a1a;
+  --gray-border: #333333;
+  --gray-text: #888888;
 }
 
 .process-page {
   min-height: 100vh;
   background: var(--white);
-  font-family: 'JetBrains Mono', 'Noto Sans SC', monospace;
+  font-family: 'JetBrains Mono', monospace;
   overflow: hidden; /* translated comment */
 .navbar {
   display: flex;
@@ -1020,10 +1020,11 @@ onUnmounted(() => {
   justify-content: space-between;
   padding: 0 24px;
   height: 56px;
-  background: #000;
-  color: #fff;
+  background: #111111;
+  color: #f0f0f0;
   z-index: 10;
   position: relative;
+  border-bottom: 1px solid #333333;
 }
 
 .nav-brand {
@@ -1048,19 +1049,19 @@ onUnmounted(() => {
 }
 
 .step-badge {
-  background: #FF6B35;
-  color: #fff;
+  background: #888888;
+  color: #0a0a0a;
   padding: 2px 8px;
   font-size: 0.7rem;
   font-weight: 600;
   letter-spacing: 0.05em;
-  border-radius: 2px;
+  border-radius: 0;
 }
 
 .step-name {
   font-size: 0.85rem;
   letter-spacing: 0.05em;
-  color: #fff;
+  color: #f0f0f0;
 }
 
 .nav-status {
@@ -1071,22 +1072,22 @@ onUnmounted(() => {
 .status-dot {
   width: 6px;
   height: 6px;
-  border-radius: 50%;
-  background: #666;
+  border-radius: 0;
+  background: #888888;
   margin-right: 8px;
 }
 
 .status-dot.processing {
-  background: #FF6B35;
+  background: #888888;
   animation: pulse 1.5s infinite;
 }
 
 .status-dot.completed {
-  background: #1A936F;
+  background: #d4d4d4;
 }
 
 .status-dot.error {
-  background: #C5283D;
+  background: #f0f0f0;
 }
 
 @keyframes pulse {
@@ -1096,7 +1097,7 @@ onUnmounted(() => {
 
 .status-text {
   font-size: 0.75rem;
-  color: #999;
+  color: #888888;
 }
 
 /* translated comment */
@@ -1136,14 +1137,14 @@ onUnmounted(() => {
 .loading-ring {
   position: absolute;
   border: 2px solid transparent;
-  border-radius: 50%;
+  border-radius: 0;
   animation: ring-rotate 1.5s linear infinite;
 }
 
 .loading-ring:nth-child(1) {
   width: 80px;
   height: 80px;
-  border-top-color: #000;
+  border-top-color: #f0f0f0;
 }
 
 .loading-ring:nth-child(2) {
@@ -1151,7 +1152,7 @@ onUnmounted(() => {
   height: 60px;
   top: 10px;
   left: 10px;
-  border-right-color: #FF6B35;
+  border-right-color: #888888;
   animation-delay: 0.2s;
 }
 
@@ -1160,7 +1161,7 @@ onUnmounted(() => {
   height: 40px;
   top: 20px;
   left: 20px;
-  border-bottom-color: #666;
+  border-bottom-color: #888888;
   animation-delay: 0.4s;
 }
 
@@ -1171,13 +1172,13 @@ onUnmounted(() => {
 .loading-text,
 .waiting-text {
   font-size: 0.9rem;
-  color: #333;
+  color: #d4d4d4;
   margin: 0 0 8px;
 }
 
 .waiting-hint {
   font-size: 0.8rem;
-  color: #999;
+  color: #888888;
   margin: 0;
 }
 
@@ -1211,17 +1212,17 @@ onUnmounted(() => {
   align-items: center;
   gap: 8px;
   padding: 8px 16px;
-  background: rgba(255, 107, 53, 0.1);
-  border: 1px solid #FF6B35;
+  background: #1a1a1a;
+  border: 1px solid #333333;
   font-size: 0.8rem;
-  color: #FF6B35;
+  color: #888888;
 }
 
 .building-dot {
   width: 8px;
   height: 8px;
-  background: #FF6B35;
-  border-radius: 50%;
+  background: #888888;
+  border-radius: 0;
   animation: pulse 1s infinite;
 }
 
@@ -1232,9 +1233,8 @@ onUnmounted(() => {
   right: 16px;
   width: 320px;
   max-height: calc(100% - 32px);
-  background: #fff;
-  border: 1px solid #E0E0E0;
-  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+  background: #0a0a0a;
+  border: 1px solid #333333;
   overflow: hidden;
   display: flex;
   flex-direction: column;
@@ -1246,21 +1246,21 @@ onUnmounted(() => {
   align-items: center;
   gap: 10px;
   padding: 12px 16px;
-  background: #FAFAFA;
-  border-bottom: 1px solid #E0E0E0;
+  background: #1a1a1a;
+  border-bottom: 1px solid #333333;
 }
 
 .detail-title {
   font-size: 0.9rem;
   font-weight: 600;
-  color: #333;
+  color: #d4d4d4;
 }
 
 .detail-badge {
   padding: 2px 10px;
   font-size: 0.75rem;
-  color: #fff;
-  border-radius: 2px;
+  color: #0a0a0a;
+  border-radius: 0;
 }
 
 .detail-close {
@@ -1273,13 +1273,13 @@ onUnmounted(() => {
   background: none;
   border: none;
   font-size: 1.2rem;
-  color: #999;
+  color: #888888;
   cursor: pointer;
   transition: color 0.2s;
 }
 
 .detail-close:hover {
-  color: #333;
+  color: #f0f0f0;
 }
 
 .detail-content {
@@ -1296,21 +1296,21 @@ onUnmounted(() => {
 
 .detail-label {
   font-size: 0.8rem;
-  color: #999;
+  color: #888888;
   min-width: 70px;
   flex-shrink: 0;
 }
 
 .detail-value {
   font-size: 0.85rem;
-  color: #333;
+  color: #d4d4d4;
   word-break: break-word;
 }
 
 .detail-value.uuid {
   font-family: 'JetBrains Mono', monospace;
   font-size: 0.75rem;
-  color: #666;
+  color: #888888;
 }
 
 .detail-section {
@@ -1320,11 +1320,11 @@ onUnmounted(() => {
 .detail-summary {
   margin: 8px 0 0 0;
   font-size: 0.85rem;
-  color: #333;
+  color: #d4d4d4;
   line-height: 1.6;
   padding: 10px;
-  background: #F9F9F9;
-  border-left: 3px solid #FF6B35;
+  background: #1a1a1a;
+  border-left: 3px solid #888888;
 }
 
 .detail-labels {
@@ -1336,9 +1336,9 @@ onUnmounted(() => {
 .label-tag {
   padding: 2px 8px;
   font-size: 0.75rem;
-  background: #F0F0F0;
-  border: 1px solid #E0E0E0;
-  color: #666;
+  background: #1a1a1a;
+  border: 1px solid #333333;
+  color: #888888;
 }
 
 /* translated comment */
@@ -1349,48 +1349,48 @@ onUnmounted(() => {
   gap: 8px;
   margin-bottom: 16px;
   padding: 12px;
-  background: #F9F9F9;
-  border: 1px solid #E0E0E0;
+  background: #1a1a1a;
+  border: 1px solid #333333;
 }
 
 .edge-source,
 .edge-target {
   font-size: 0.85rem;
   font-weight: 500;
-  color: #333;
+  color: #d4d4d4;
 }
 
 .edge-arrow {
-  color: #999;
+  color: #888888;
 }
 
 .edge-type {
   padding: 2px 8px;
   font-size: 0.75rem;
-  background: #FF6B35;
-  color: #fff;
+  background: #888888;
+  color: #0a0a0a;
 }
 
 .detail-value.highlight {
   font-weight: 600;
-  color: #000;
+  color: #f0f0f0;
 }
 
 .detail-subtitle {
   font-size: 0.9rem;
   font-weight: 600;
-  color: #333;
+  color: #d4d4d4;
   margin: 16px 0 12px 0;
   padding-bottom: 8px;
-  border-bottom: 1px solid #E0E0E0;
+  border-bottom: 1px solid #333333;
 }
 
 /* translated comment */
 .properties-list {
   margin-top: 8px;
   padding: 10px;
-  background: #F9F9F9;
-  border: 1px solid #E0E0E0;
+  background: #1a1a1a;
+  border: 1px solid #333333;
 }
 
 .property-item {
@@ -1404,13 +1404,13 @@ onUnmounted(() => {
 }
 
 .property-key {
-  color: #666;
+  color: #888888;
   margin-right: 8px;
   font-family: 'JetBrains Mono', monospace;
 }
 
 .property-value {
-  color: #333;
+  color: #d4d4d4;
   word-break: break-word;
 }
 
@@ -1427,9 +1427,9 @@ onUnmounted(() => {
   padding: 6px 10px;
   font-size: 0.75rem;
   font-family: 'JetBrains Mono', monospace;
-  background: #F0F0F0;
-  border: 1px solid #E0E0E0;
-  color: #666;
+  background: #1a1a1a;
+  border: 1px solid #333333;
+  color: #888888;
   word-break: break-all;
 }
 
@@ -1445,8 +1445,8 @@ onUnmounted(() => {
   flex-wrap: wrap;
   gap: 16px;
   padding: 12px 24px;
-  border-top: 1px solid #E0E0E0;
-  background: #FAFAFA;
+  border-top: 1px solid #333333;
+  background: #1a1a1a;
 }
 
 .legend-item {
@@ -1459,15 +1459,15 @@ onUnmounted(() => {
 .legend-dot {
   width: 10px;
   height: 10px;
-  border-radius: 50%;
+  border-radius: 0;
 }
 
 .legend-label {
-  color: #333;
+  color: #d4d4d4;
 }
 
 .legend-count {
-  color: #999;
+  color: #888888;
 }
 
 /* translated comment */
@@ -1476,7 +1476,7 @@ onUnmounted(() => {
   flex: none;
   display: flex;
   flex-direction: column;
-  background: #fff;
+  background: #0a0a0a;
   transition: width 0.35s cubic-bezier(0.4, 0, 0.2, 1), opacity 0.3s ease, transform 0.3s ease;
   overflow: hidden;
   opacity: 1;
@@ -1490,13 +1490,13 @@ onUnmounted(() => {
 }
 
 .right-panel .panel-header.dark-header {
-  background: #000;
-  color: #fff;
-  border-bottom: none;
+  background: #111111;
+  color: #f0f0f0;
+  border-bottom: 1px solid #333333;
 }
 
 .right-panel .header-icon {
-  color: #FF6B35;
+  color: #888888;
   margin-right: 8px;
 }
 
@@ -1510,7 +1510,7 @@ onUnmounted(() => {
 /* translated comment */
 .process-phase {
   margin-bottom: 24px;
-  border: 1px solid #E0E0E0;
+  border: 1px solid #333333;
   opacity: 0.5;
   transition: all 0.3s;
 }
@@ -1521,11 +1521,11 @@ onUnmounted(() => {
 }
 
 .process-phase.active {
-  border-color: #FF6B35;
+  border-color: #888888;
 }
 
 .process-phase.completed {
-  border-color: #1A936F;
+  border-color: #d4d4d4;
 }
 
 .phase-header {
@@ -1533,31 +1533,31 @@ onUnmounted(() => {
   align-items: flex-start;
   gap: 16px;
   padding: 16px;
-  background: #FAFAFA;
-  border-bottom: 1px solid #E0E0E0;
+  background: #1a1a1a;
+  border-bottom: 1px solid #333333;
 }
 
 .process-phase.active .phase-header {
-  background: #FFF5F2;
+  background: #1a1a1a;
 }
 
 .process-phase.completed .phase-header {
-  background: #F2FAF6;
+  background: #1a1a1a;
 }
 
 .phase-num {
   font-size: 1.5rem;
   font-weight: 700;
-  color: #ddd;
+  color: #333333;
   line-height: 1;
 }
 
 .process-phase.active .phase-num {
-  color: #FF6B35;
+  color: #888888;
 }
 
 .process-phase.completed .phase-num {
-  color: #1A936F;
+  color: #d4d4d4;
 }
 
 .phase-info {
@@ -1572,25 +1572,25 @@ onUnmounted(() => {
 
 .phase-api {
   font-size: 0.75rem;
-  color: #999;
+  color: #888888;
   font-family: 'JetBrains Mono', monospace;
 }
 
 .phase-status {
   font-size: 0.75rem;
   padding: 4px 10px;
-  background: #eee;
-  color: #666;
+  background: #1a1a1a;
+  color: #888888;
 }
 
 .phase-status.active {
-  background: #FF6B35;
-  color: #fff;
+  background: #888888;
+  color: #0a0a0a;
 }
 
 .phase-status.completed {
-  background: #1A936F;
-  color: #fff;
+  background: #d4d4d4;
+  color: #0a0a0a;
 }
 
 /* translated comment */
@@ -1608,9 +1608,9 @@ onUnmounted(() => {
 .entity-tag {
   font-size: 0.75rem;
   padding: 4px 10px;
-  background: #F5F5F5;
-  border: 1px solid #E0E0E0;
-  color: #333;
+  background: #1a1a1a;
+  border: 1px solid #333333;
+  color: #d4d4d4;
 }
 
 /* translated comment */
@@ -1623,7 +1623,7 @@ onUnmounted(() => {
   align-items: center;
   gap: 8px;
   padding: 6px 0;
-  border-bottom: 1px dashed #eee;
+  border-bottom: 1px dashed #333333;
 }
 
 .relation-item:last-child {
@@ -1632,21 +1632,21 @@ onUnmounted(() => {
 
 .rel-source,
 .rel-target {
-  color: #333;
+  color: #d4d4d4;
 }
 
 .rel-arrow {
-  color: #ccc;
+  color: #888888;
 }
 
 .rel-name {
-  color: #FF6B35;
+  color: #888888;
   font-weight: 500;
 }
 
 .relation-more {
   padding-top: 8px;
-  color: #999;
+  color: #888888;
   font-size: 0.75rem;
 }
 
@@ -1656,48 +1656,48 @@ onUnmounted(() => {
   align-items: center;
   gap: 12px;
   padding: 12px;
-  background: #FFF5F2;
-  border: 1px solid #FFE0D6;
+  background: #1a1a1a;
+  border: 1px solid #333333;
 }
 
 .progress-spinner {
   width: 20px;
   height: 20px;
-  border: 2px solid #FFE0D6;
-  border-top-color: #FF6B35;
-  border-radius: 50%;
+  border: 2px solid #333333;
+  border-top-color: #888888;
+  border-radius: 0;
   animation: spin 1s linear infinite;
 }
 
 .progress-text {
   font-size: 0.85rem;
-  color: #333;
+  color: #d4d4d4;
 }
 
 /* translated comment */
 .waiting-state {
   padding: 16px;
-  background: #F9F9F9;
-  border: 1px dashed #E0E0E0;
+  background: #1a1a1a;
+  border: 1px dashed #333333;
   text-align: center;
 }
 
 .waiting-hint {
   font-size: 0.85rem;
-  color: #999;
+  color: #888888;
 }
 
 /* translated comment */
 .progress-bar {
   height: 6px;
-  background: #E0E0E0;
+  background: #333333;
   margin-bottom: 8px;
   overflow: hidden;
 }
 
 .progress-fill {
   height: 100%;
-  background: #FF6B35;
+  background: #888888;
   transition: width 0.3s;
 }
 
@@ -1708,11 +1708,11 @@ onUnmounted(() => {
 }
 
 .progress-message {
-  color: #666;
+  color: #888888;
 }
 
 .progress-percent {
-  color: #FF6B35;
+  color: #d4d4d4;
   font-weight: 600;
 }
 
@@ -1720,7 +1720,7 @@ onUnmounted(() => {
 .next-step-section {
   margin-top: 24px;
   padding-top: 24px;
-  border-top: 1px solid #E0E0E0;
+  border-top: 1px solid #333333;
 }
 
 .next-step-btn {
@@ -1730,9 +1730,9 @@ onUnmounted(() => {
   justify-content: center;
   gap: 10px;
   padding: 16px;
-  background: #000;
-  color: #fff;
-  border: none;
+  background: #111111;
+  color: #f0f0f0;
+  border: 1px solid #333333;
   font-size: 1rem;
   font-weight: 500;
   letter-spacing: 0.05em;
@@ -1741,11 +1741,12 @@ onUnmounted(() => {
 }
 
 .next-step-btn:hover:not(:disabled) {
-  background: #FF6B35;
+  background: #333333;
 }
 
 .next-step-btn:disabled {
-  background: #ccc;
+  background: #1a1a1a;
+  color: #888888;
   cursor: not-allowed;
 }
 
@@ -1755,8 +1756,8 @@ onUnmounted(() => {
 
 /* translated comment */
 .project-panel {
-  border-top: 1px solid #E0E0E0;
-  background: #FAFAFA;
+  border-top: 1px solid #333333;
+  background: #1a1a1a;
 }
 
 .project-header {
@@ -1764,11 +1765,11 @@ onUnmounted(() => {
   align-items: center;
   gap: 10px;
   padding: 12px 24px;
-  border-bottom: 1px solid #E0E0E0;
+  border-bottom: 1px solid #333333;
 }
 
 .project-icon {
-  color: #FF6B35;
+  color: #888888;
 }
 
 .project-title {
@@ -1785,7 +1786,7 @@ onUnmounted(() => {
   justify-content: space-between;
   align-items: flex-start;
   padding: 8px 0;
-  border-bottom: 1px dashed #E0E0E0;
+  border-bottom: 1px dashed #333333;
   font-size: 0.8rem;
 }
 
@@ -1794,12 +1795,12 @@ onUnmounted(() => {
 }
 
 .item-label {
-  color: #999;
+  color: #888888;
   flex-shrink: 0;
 }
 
 .item-value {
-  color: #333;
+  color: #d4d4d4;
   text-align: right;
   max-width: 60%;
   word-break: break-all;
@@ -1808,7 +1809,7 @@ onUnmounted(() => {
 .item-value.code {
   font-family: 'JetBrains Mono', monospace;
   font-size: 0.75rem;
-  color: #666;
+  color: #888888;
 }
 
 /* translated comment */
@@ -1820,7 +1821,7 @@ onUnmounted(() => {
   .left-panel {
     width: 100% !important;
     border-right: none;
-    border-bottom: 1px solid #E0E0E0;
+    border-bottom: 1px solid #333333;
     height: 50vh;
   }
   
