@@ -18,6 +18,51 @@ from ..utils .logger import get_logger
 logger =get_logger ('mirofish.api.report')
 
 
+def _build_market_resolution_context (project_id :str ,simulation_requirement :str )->str :
+    """Extract a compact resolution brief from the saved project seed text."""
+    extracted_text =ProjectManager .get_extracted_text (project_id )or ""
+    if not extracted_text :
+        return f"Simulation brief: {simulation_requirement }"
+
+    lines =[line .strip ()for line in extracted_text .splitlines ()if line .strip ()]
+
+    def pick (prefix :str )->str :
+        for line in lines :
+            if line .startswith (prefix ):
+                return line [len (prefix ):].strip ()
+        return ""
+
+    question =pick ("Question:")
+    end_date =pick ("End date:")
+    resolution_source =pick ("Resolution source:")
+
+    rules =[]
+    capture_rules =False 
+    for line in lines :
+        if line =="Market description":
+            break 
+        if line .startswith ("This market will resolve"):
+            capture_rules =True 
+        if capture_rules :
+            rules .append (line )
+
+    compact_rules =" ".join (rules )[:1200 ]if rules else ""
+
+    parts =[]
+    if question :
+        parts .append (f"Market question: {question }")
+    if compact_rules :
+        parts .append (f"Resolution rule: {compact_rules }")
+    if end_date :
+        parts .append (f"Deadline: {end_date }")
+    if resolution_source :
+        parts .append (f"Resolution source: {resolution_source }")
+    if simulation_requirement :
+        parts .append (f"Simulation brief: {simulation_requirement }")
+
+    return "\n".join (parts )if parts else f"Simulation brief: {simulation_requirement }"
+
+
 # ============== Report generation interface ==============
 
 @report_bp .route ('/generate',methods =['POST'])
@@ -104,6 +149,11 @@ def generate_report ():
             "error":"Missing simulation requirement description"
             }),400 
 
+        market_resolution_context =_build_market_resolution_context (
+        project_id =state .project_id ,
+        simulation_requirement =simulation_requirement 
+        )
+
             # Generate report_id ahead of time so it can be returned immediately to the frontend
         import uuid 
         report_id =f"report_{uuid .uuid4 ().hex [:12 ]}"
@@ -133,7 +183,8 @@ def generate_report ():
                 agent =ReportAgent (
                 graph_id =graph_id ,
                 simulation_id =simulation_id ,
-                simulation_requirement =simulation_requirement 
+                simulation_requirement =simulation_requirement ,
+                market_resolution_context =market_resolution_context 
                 )
 
                 # Progress callback
@@ -533,12 +584,17 @@ def chat_with_report_agent ():
             }),400 
 
         simulation_requirement =project .simulation_requirement or ""
+        market_resolution_context =_build_market_resolution_context (
+        project_id =state .project_id ,
+        simulation_requirement =simulation_requirement 
+        )
 
         # Create an agent and have a conversation
         agent =ReportAgent (
         graph_id =graph_id ,
         simulation_id =simulation_id ,
-        simulation_requirement =simulation_requirement 
+        simulation_requirement =simulation_requirement ,
+        market_resolution_context =market_resolution_context 
         )
 
         result =agent .chat (message =message ,chat_history =chat_history )

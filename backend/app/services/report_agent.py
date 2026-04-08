@@ -553,6 +553,13 @@ Write a "Future Forecast Report" and answer:
 - ❌ Not an analysis of real-world conditions
 - ❌ This is not a general summary of public opinion.
 
+[Market resolution discipline]
+- Treat the market's exact resolution rule as the primary frame of analysis
+- Every chapter must stay tied to the real settlement criteria, threshold, source, and deadline
+- Prefer chapters about threshold mechanics, evidence that moves the resolution probability, timing, and failure modes
+- Do not invent broader macro or geopolitical narratives unless they are clearly necessary to explain the resolution path
+- If the available simulation evidence does not support a narrative, exclude it from the outline
+
 [Limited number of chapters]
 - Minimum 2 chapters, maximum 5 chapters
 - No sub-chapters are needed, each chapter directly writes the complete content
@@ -576,6 +583,9 @@ Note: The sections array has a minimum of 2 and a maximum of 5 elements!"""
 PLAN_USER_PROMPT_TEMPLATE ="""\
 [Prediction scene settings]
 Variables we inject into the simulation world (simulation requirements): {simulation_requirement}
+
+[Market resolution criteria]
+{market_resolution_context}
 
 [Simulated World Scale]
 - Number of entities participating in the simulation: {total_nodes}
@@ -603,6 +613,7 @@ You are a "future forecast report" writing expert and are writing a chapter of t
 Report title: {report_title}
 Report summary: {report_summary}
 Forecast scenario (simulation requirement): {simulation_requirement}
+Market resolution criteria: {market_resolution_context}
 
 Chapter currently being written: {section_title}
 
@@ -648,6 +659,14 @@ Your task is:
 - Report content must reflect simulation results that represent the future in the simulated world
 - Do not add information that does not exist in the simulation
 - If there is insufficient information in a certain aspect, explain it truthfully
+
+5. [Stay anchored to the market resolution rule]
+- This is not a free-form essay topic. It is a prediction market with a concrete settlement rule.
+- Every chapter must help answer whether the market's exact resolution condition is likely to occur by the stated deadline.
+- Keep returning to the operational resolution test: what observable facts would move the market toward Yes or No?
+- Do not center the chapter on broad narratives that are only indirectly related to settlement.
+- If discussing catalysts, explain how they propagate into the exact resolution metric, threshold, and timing.
+- If you cannot connect a claim to the resolution rule, do not include it.
 
 ═══════════════════════════════ ════════════════════════════════
 [Format Requirements - Critical]
@@ -816,6 +835,7 @@ You are a simple and efficient simulation prediction assistant.
 
 [Background]
 Prediction condition: {simulation_requirement}
+Market resolution criteria: {market_resolution_context}
 
 [Generated analysis report]
 {report_content}
@@ -825,6 +845,8 @@ Prediction condition: {simulation_requirement}
 2. Answer the question directly and avoid lengthy thinking and discussion.
 3. Only call the tool to retrieve more data if the report content is not enough to answer the question
 4. Answers should be concise, clear and organized
+5. Stay tied to the exact market settlement rule, threshold, source, and deadline
+6. Do not drift into broad narratives unless they directly help explain whether the market resolves Yes or No
 
 [Available tools] (only used when needed, called 1-2 times at most)
 {tools_description}
@@ -869,6 +891,7 @@ class ReportAgent :
     graph_id :str ,
     simulation_id :str ,
     simulation_requirement :str ,
+    market_resolution_context :str ="" ,
     llm_client :Optional [LLMClient ]=None ,
     zep_tools :Optional [ZepToolsService ]=None 
     ):
@@ -883,6 +906,7 @@ class ReportAgent :
         self .graph_id =graph_id 
         self .simulation_id =simulation_id 
         self .simulation_requirement =simulation_requirement 
+        self .market_resolution_context =market_resolution_context .strip ()
 
         self .llm =llm_client or LLMClient ()
         self .zep_tools =zep_tools or ZepToolsService ()
@@ -896,6 +920,12 @@ class ReportAgent :
         self .console_logger :Optional [ReportConsoleLogger ]=None 
 
         logger .info (f"ReportAgent initialization completed: graph_id={graph_id }, simulation_id={simulation_id }")
+
+    def _get_market_resolution_context (self )->str :
+        """Return a compact, always-available market resolution brief for prompts."""
+        if self .market_resolution_context :
+            return self .market_resolution_context 
+        return "No explicit market resolution context was provided. Stay conservative and avoid unsupported narratives."
 
     def _define_tools (self )->Dict [str ,Dict [str ,Any ]]:
         """Define available tools"""
@@ -1141,6 +1171,7 @@ class ReportAgent :
         system_prompt =PLAN_SYSTEM_PROMPT 
         user_prompt =PLAN_USER_PROMPT_TEMPLATE .format (
         simulation_requirement =self .simulation_requirement ,
+        market_resolution_context =self ._get_market_resolution_context (),
         total_nodes =context .get ('graph_statistics',{}).get ('total_nodes',0 ),
         total_edges =context .get ('graph_statistics',{}).get ('total_edges',0 ),
         entity_types =list (context .get ('graph_statistics',{}).get ('entity_types',{}).keys ()),
@@ -1229,6 +1260,7 @@ class ReportAgent :
         report_title =outline .title ,
         report_summary =outline .summary ,
         simulation_requirement =self .simulation_requirement ,
+        market_resolution_context =self ._get_market_resolution_context (),
         section_title =section .title ,
         tools_description =self ._get_tools_description (),
         )
@@ -1263,7 +1295,11 @@ class ReportAgent :
         all_tools ={"insight_forge","panorama_search","quick_search","interview_agents"}
 
         # Report context for sub-issue generation in InsightForge
-        report_context =f"Chapter title:{section .title }\nSimulation requirements:{self .simulation_requirement }"
+        report_context =(
+        f"Chapter title:{section .title }\n"
+        f"Simulation requirements:{self .simulation_requirement }\n"
+        f"Market resolution criteria:{self ._get_market_resolution_context ()}"
+        )
 
         for iteration in range (max_iterations ):
             if progress_callback :
@@ -1772,6 +1808,7 @@ class ReportAgent :
 
         system_prompt =CHAT_SYSTEM_PROMPT_TEMPLATE .format (
         simulation_requirement =self .simulation_requirement ,
+        market_resolution_context =self ._get_market_resolution_context (),
         report_content =report_content if report_content else "(No report yet)",
         tools_description =self ._get_tools_description (),
         )
