@@ -15,6 +15,18 @@
           <a href="#launch">Start Simulation</a>
         </div>
         <div class="topbar-actions">
+          <a
+            class="social-link x-link"
+            href="https://x.com/polyfishpy"
+            target="_blank"
+            rel="noreferrer"
+            aria-label="PolyFish on X"
+            title="PolyFish on X"
+          >
+            <svg viewBox="0 0 24 24" aria-hidden="true">
+              <path d="M18.901 1.153h3.68l-8.04 9.188 9.458 12.506h-7.405l-5.8-7.584-6.637 7.584H.476l8.6-9.83L0 1.154h7.594l5.243 6.932 6.064-6.933Zm-1.291 19.47h2.04L6.486 3.24H4.298L17.61 20.624Z" fill="currentColor" />
+            </svg>
+          </a>
           <button class="primary-button" type="button" @click="scrollToLaunch">Start Simulation</button>
         </div>
       </div>
@@ -619,6 +631,18 @@
         <div class="footer-links">
           <a href="#integrations">Why It Works</a>
           <a href="#launch">Start Simulation</a>
+          <a
+            class="social-link x-link"
+            href="https://x.com/polyfishpy"
+            target="_blank"
+            rel="noreferrer"
+            aria-label="PolyFish on X"
+            title="PolyFish on X"
+          >
+            <svg viewBox="0 0 24 24" aria-hidden="true">
+              <path d="M18.901 1.153h3.68l-8.04 9.188 9.458 12.506h-7.405l-5.8-7.584-6.637 7.584H.476l8.6-9.83L0 1.154h7.594l5.243 6.932 6.064-6.933Zm-1.291 19.47h2.04L6.486 3.24H4.298L17.61 20.624Z" fill="currentColor" />
+            </svg>
+          </a>
         </div>
       </div>
     </footer>
@@ -1196,6 +1220,39 @@ onMounted(() => {
 .topbar-links a:hover,
 .footer-links a:hover {
   color: white;
+}
+
+.social-link {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 36px;
+  height: 36px;
+  color: #8a8a8a;
+  border: 1px solid #2a2a2a;
+  border-radius: 999px;
+  background: rgba(255, 255, 255, 0.02);
+  transition: color 0.2s ease, border-color 0.2s ease, background 0.2s ease, transform 0.2s ease;
+}
+
+.social-link svg {
+  width: 14px;
+  height: 14px;
+}
+
+.social-link:hover {
+  color: #f5f5f5;
+  border-color: #4a4a4a;
+  background: rgba(255, 255, 255, 0.06);
+  transform: translateY(-1px);
+}
+
+.topbar-actions .primary-button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  height: 36px;
+  padding: 0 18px;
 }
 
 .primary-button,
