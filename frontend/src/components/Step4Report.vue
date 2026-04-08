@@ -234,6 +234,7 @@ const renderMarkdown = (content) => {
 
   html = html.replace(/```(\w+)?\n([\s\S]*?)```/g, '<pre class="code-block"><code>$2</code></pre>')
   html = html.replace(/`([^`]+)`/g, '<code class="inline-code">$1</code>')
+  html = html.replace(/^---$/gm, '<hr>')
   html = html.replace(/^### (.+)$/gm, '<h4>$1</h4>')
   html = html.replace(/^## (.+)$/gm, '<h3>$1</h3>')
   html = html.replace(/^# (.+)$/gm, '<h2>$1</h2>')
@@ -254,6 +255,7 @@ const renderMarkdown = (content) => {
   html = html.replace(/<\/pre><\/p>/g, '</pre>')
   html = html.replace(/<p><ul>/g, '<ul>')
   html = html.replace(/<\/ul><\/p>/g, '</ul>')
+  html = html.replace(/<p><hr><\/p>/g, '<hr>')
 
   return html
 }
@@ -390,6 +392,8 @@ onUnmounted(() => {
 
 <style scoped>
 .report-panel {
+  position: relative;
+  isolation: isolate;
   height: 100%;
   display: flex;
   flex-direction: column;
@@ -491,6 +495,8 @@ onUnmounted(() => {
 }
 
 .panel-card {
+  position: relative;
+  z-index: 1;
   background: #111111;
   border: 1px solid #333333;
   border-radius: 0;
@@ -574,6 +580,8 @@ onUnmounted(() => {
 }
 
 .thesis-card {
+  z-index: 3;
+  isolation: isolate;
   min-height: 260px;
 }
 
@@ -598,7 +606,15 @@ onUnmounted(() => {
 }
 
 .report-content {
+  position: relative;
+  z-index: 3;
   line-height: 1.65;
+  overflow-wrap: anywhere;
+}
+
+.log-grid {
+  position: relative;
+  z-index: 1;
 }
 
 .markdown-body :deep(h2),
@@ -622,6 +638,12 @@ onUnmounted(() => {
   padding-left: 14px;
   border-left: 3px solid #333333;
   color: #888888;
+}
+
+.markdown-body :deep(hr) {
+  margin: 1.4em 0;
+  border: 0;
+  border-top: 1px solid #2a2a2a;
 }
 
 .markdown-body :deep(.inline-code),
